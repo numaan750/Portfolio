@@ -3,22 +3,32 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
+import { usePathname, useRouter } from "next/navigation";
 
 const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "#home", type: "scroll" },
+  { label: "About", href: "#about", type: "scroll" },
+  { label: "Skills", href: "#skills", type: "scroll" },
+  { label: "Experience", href: "#experience", type: "scroll" },
+  // { label: "Blog", href: "/blog", type: "page" },
+  { label: "Contact", href: "#contact", type: "scroll" },
+  { label: "Projects", href: "/projects", type: "page" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
+  const pathname = usePathname();
+  const router = useRouter();
+  const activeLink = NAV_LINKS.find((l) =>
+    l.type === "page"
+      ? pathname === l.href
+      : activeSection === l.href.replace("#", ""),
+  );
+  const activeLinkHref = activeLink?.href ?? "";
 
   useEffect(() => {
     const onScroll = () => {
@@ -48,10 +58,19 @@ export default function Navbar() {
     return () => observers.forEach((o) => o?.disconnect());
   }, []);
 
-  const handleNavClick = (href) => {
+  const handleNavClick = (href, type) => {
     setMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (type === "page") {
+      router.push(href);
+      return;
+    }
+    // type === "scroll"
+    if (pathname !== "/") {
+      router.push(`/${href}`);
+    } else {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -75,7 +94,7 @@ export default function Navbar() {
               href="#home"
               onClick={(e) => {
                 e.preventDefault();
-                handleNavClick("#home");
+                handleNavClick("#home", "scroll");
               }}
               className="font-extrabold text-xl no-underline tracking-tight gradient-text"
             >
@@ -84,14 +103,14 @@ export default function Navbar() {
             <div className="hidden md:flex gap-2 items-center bg-white/5 rounded-xl px-4 py-1.5">
               {NAV_LINKS.map((link) => {
                 const id = link.href.replace("#", "");
-                const isActive = activeSection === id;
+                const isActive = activeLinkHref === link.href;
                 return (
                   <a
                     key={link.href}
                     href={link.href}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavClick(link.href);
+                      handleNavClick(link.href, link.type);
                     }}
                     className={`px-4 py-1.5 rounded-lg text-sm font-medium no-underline transition-all duration-250 border ${
                       isActive
@@ -126,14 +145,14 @@ export default function Navbar() {
           >
             {NAV_LINKS.map((link) => {
               const id = link.href.replace("#", "");
-              const isActive = activeSection === id;
+              const isActive = activeLinkHref === link.href;
               return (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    handleNavClick(link.href);
+                    handleNavClick(link.href, link.type);
                   }}
                   className={`block py-3.5 text-base font-semibold no-underline border-b border-white/5 transition-colors duration-200 ${
                     isActive ? "text-[#6366f1]" : "text-slate-100"

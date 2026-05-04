@@ -2,9 +2,35 @@
 
 import { FaGithub, FaLinkedinIn, FaEnvelope, FaPhone } from "react-icons/fa";
 import { personalInfo } from "@/lib/data";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const FOOTER_LINKS = [
+    { label: "Home", href: "#home", type: "scroll" },
+    { label: "About", href: "#about", type: "scroll" },
+    { label: "Skills", href: "#skills", type: "scroll" },
+    { label: "Projects", href: "/projects", type: "page" },
+    { label: "Experience", href: "#experience", type: "scroll" },
+    { label: "Contact", href: "#contact", type: "scroll" },
+  ];
+
+  const handleFooterNav = (href, type) => {
+    if (type === "page") {
+      router.push(href);
+      return;
+    }
+    const section = href.replace("#", "");
+    if (pathname !== "/") {
+      router.push(`/#${section}`);
+    } else {
+      const el = document.getElementById(section);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <footer className="border-t border-[#6366f1]/20 bg-[#0d0d1a]/60 backdrop-blur-md py-10 px-6">
@@ -16,17 +42,15 @@ export default function Footer() {
           Nexcode
         </a>
         <div className="flex gap-6 flex-wrap justify-center">
-          {["Home", "About", "Skills", "Projects", "Experience", "Contact"].map(
-            (s) => (
-              <a
-                key={s}
-                href={`#${s.toLowerCase()}`}
-                className="text-slate-400 text-[0.85rem] no-underline font-medium transition-colors duration-200 hover:text-indigo-300"
-              >
-                {s}
-              </a>
-            ),
-          )}
+          {FOOTER_LINKS.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => handleFooterNav(item.href, item.type)}
+              className="text-slate-400 text-[0.85rem] font-medium transition-colors duration-200 hover:text-indigo-300 bg-transparent border-none cursor-pointer"
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
         <div className="flex gap-3">
           {[

@@ -6,6 +6,7 @@ import { HiExternalLink } from "react-icons/hi";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
 import { scaleIn, fadeUp } from "@/lib/animations";
 import { projects } from "@/lib/data";
+import Link from "next/link";
 
 const FILTERS = [
   "All",
@@ -16,13 +17,14 @@ const FILTERS = [
   "Real Estate",
 ];
 
-export default function Projects() {
+export default function Projects({ showAll = false }) {
   const [activeFilter, setActiveFilter] = useState("All");
 
   const filtered =
     activeFilter === "All"
       ? projects
       : projects.filter((p) => p.category === activeFilter);
+  const displayedProjects = showAll ? filtered : filtered.slice(0, 3);
 
   return (
     <SectionWrapper id="projects" className="pt-10 pb-10">
@@ -31,24 +33,26 @@ export default function Projects() {
         title="What I've Built"
         subtitle="A selection of real-world projects — from AI platforms to e-commerce stores."
       />
-      <motion.div variants={fadeUp} className="flex gap-2.5 flex-wrap mb-10">
-        {FILTERS.map((f) => (
-          <button
-            key={f}
-            onClick={() => setActiveFilter(f)}
-            className={`px-4.5 py-2 rounded-lg border font-semibold text-[0.82rem] cursor-pointer transition-all duration-250 ${
-              activeFilter === f
-                ? "border-[#6366f1] bg-gradient-to-br from-[#6366f1] to-[#22d3ee] text-white"
-                : "border-[#6366f1]/20 bg-transparent text-slate-400"
-            }`}
-          >
-            {f}
-          </button>
-        ))}
-      </motion.div>
+      {showAll && (
+        <motion.div variants={fadeUp} className="flex gap-2.5 flex-wrap mb-10">
+          {FILTERS.map((f) => (
+            <button
+              key={f}
+              onClick={() => setActiveFilter(f)}
+              className={`px-4.5 py-2 rounded-lg border font-semibold text-[0.82rem] cursor-pointer transition-all duration-250 ${
+                activeFilter === f
+                  ? "border-[#6366f1] bg-gradient-to-br from-[#6366f1] to-[#22d3ee] text-white"
+                  : "border-[#6366f1]/20 bg-transparent text-slate-400"
+              }`}
+            >
+              {f}
+            </button>
+          ))}
+        </motion.div>
+      )}
       <div className="grid grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-6 max-sm:grid-cols-1">
         <AnimatePresence mode="popLayout">
-          {filtered.map((project, i) => (
+          {displayedProjects.map((project, i) => (
             <motion.div
               key={project.id}
               variants={scaleIn}
@@ -107,6 +111,13 @@ export default function Projects() {
           ))}
         </AnimatePresence>
       </div>
+      {!showAll && (
+        <div className="text-center mt-10">
+          <Link href="/projects" className="btn-outline px-6 py-3 text-sm">
+            View All Projects
+          </Link>
+        </div>
+      )}
     </SectionWrapper>
   );
 }

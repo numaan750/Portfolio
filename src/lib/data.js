@@ -292,3 +292,80 @@ export const experience = [
     ],
   },
 ];
+
+export const testimonials = [
+  {
+    id: 1,
+    name: "Sarah Jenkins",
+    role: "Product Manager @ TechFlow",
+    content:
+      "Numaan transformed our vision into reality. His expertise in Next.js and AI integrations helped us launch weeks ahead of schedule. Truly an exceptional developer!",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+  },
+  {
+    id: 2,
+    name: "Michael Chen",
+    role: "Founder @ EstatePro",
+    content:
+      "Working with Numaan was a breeze. He rebuilt our entire real estate platform with a flawless UI and lightning-fast performance. Highly recommend for any complex MERN project.",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
+  },
+  {
+    id: 3,
+    name: "Emily Rodriguez",
+    role: "Creative Director @ Studio Nine",
+    content:
+      "The AI-powered features Numaan built for us are mind-blowing. He doesn't just write code; he understands the user experience and business goals perfectly.",
+    image: "https://randomuser.me/api/portraits/women/68.jpg",
+  },
+];
+
+export const faqs = [
+  {
+    id: 1,
+    question: "What technologies do you specialize in?",
+    answer: "I specialize in the MERN stack (MongoDB, Express, React, Node.js) and Next.js. I also have extensive experience integrating AI APIs like OpenAI and Anthropic, as well as working with Tailwind CSS, Redux, and payment gateways like Stripe & Creem.",
+  },
+  {
+    id: 2,
+    question: "Are you available for freelance work or full-time roles?",
+    answer: "Yes, I am currently open to both freelance opportunities and full-time remote roles. Feel free to reach out via the contact form to discuss your project or job opening.",
+  },
+  {
+    id: 3,
+    question: "How long does it typically take to build a website?",
+    answer: "The timeline depends on the complexity of the project. A standard landing page or portfolio might take 1-2 weeks, while a full-stack SaaS or e-commerce platform can take 4-8 weeks. We can discuss your specific timeline during our initial chat.",
+  },
+  {
+    id: 4,
+    question: "Do you offer post-launch support and maintenance?",
+    answer: "Absolutely! I provide ongoing support, bug fixes, and feature updates after the launch to ensure your application runs smoothly and scales efficiently.",
+  },
+];
+
+export const processSteps = [
+  {
+    id: 1,
+    title: "Discovery & Planning",
+    description: "Understanding your goals, target audience, and project requirements to create a solid foundation.",
+    icon: "FaSearch",
+  },
+  {
+    id: 2,
+    title: "UI/UX Design",
+    description: "Creating wireframes and modern, aesthetic visual designs that ensure a seamless user experience.",
+    icon: "FaPaintBrush",
+  },
+  {
+    id: 3,
+    title: "Development",
+    description: "Writing clean, scalable, and optimized code using the latest MERN stack and Next.js technologies.",
+    icon: "FaCode",
+  },
+  {
+    id: 4,
+    title: "Testing & Launch",
+    description: "Rigorous testing across devices followed by a smooth deployment and post-launch support.",
+    icon: "FaRocket",
+  },
+];
