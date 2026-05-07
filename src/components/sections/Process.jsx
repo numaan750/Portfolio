@@ -14,6 +14,7 @@ const icons = {
 };
 
 export default function Process() {
+  
   return (
     <SectionWrapper id="process" className="pt-[40px] pb-[40px]">
       <SectionHeader
