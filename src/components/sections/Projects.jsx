@@ -26,7 +26,7 @@ export default function Projects({ showAll = false }) {
     activeFilter === "All"
       ? projects
       : projects.filter((p) => p.category === activeFilter);
-  const displayedProjects = showAll ? filtered : filtered.slice(0, 3);
+  const displayedProjects = showAll ? filtered : filtered.slice(0, 4);
 
   return (
     <SectionWrapper id="projects" className="pt-10 pb-10">
@@ -130,4 +130,3 @@ export default function Projects({ showAll = false }) {
     </SectionWrapper>
   );
 }
-
