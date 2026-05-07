@@ -2,17 +2,13 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
-import { fadeUp, staggerContainer } from "@/lib/animations";
+import { fadeUp } from "@/lib/animations";
 import { faqs } from "@/lib/data";
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+  const [openIndex, setOpenIndex] = useState(0);
 
   return (
     <SectionWrapper id="faq" className="pt-10 pb-10">
@@ -23,55 +19,82 @@ export default function FAQ() {
       />
 
       <motion.div
-        variants={staggerContainer}
+        variants={fadeUp}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
-        className="max-w-3xl mx-auto flex flex-col gap-4"
+        className="w-full flex flex-col lg:flex-row relative mt-8 items-center"
       >
-        {faqs.map((faq, index) => {
-          const isOpen = openIndex === index;
+        {/* Left Side: Questions List */}
+        <div className="w-full lg:w-[50%] flex flex-col justify-center py-6 z-20 relative lg:mr-[-60px] bg-[#0f0f1a] rounded-[1.5rem] shadow-xl min-h-[350px]">
+          {/* Questions */}
+          <div className="flex flex-col z-10">
+            {faqs.map((faq, index) => {
+              const isActive = openIndex === index;
 
-          return (
-            <motion.div
-              key={faq.id}
-              variants={fadeUp}
-              className="glass rounded-2xl overflow-hidden"
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left cursor-pointer transition-colors hover:bg-white/[0.02] focus:outline-none"
-              >
-                <span className="font-bold text-[1.05rem] text-slate-100 pr-4">
-                  {faq.question}
-                </span>
-                <motion.div
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
+              return (
+                <div
+                  key={faq.id || index}
+                  onClick={() => setOpenIndex(index)}
+                  className={`flex items-center justify-between px-6 py-5 cursor-pointer transition-all duration-300 ${
+                    isActive
+                      ? "bg-white/[0.04] rounded-2xl"
+                      : "hover:bg-white/[0.02]"
+                  }`}
                 >
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-[#6366f1]/20 to-[#22d3ee]/20 flex items-center justify-center text-cyan-400">
-                    <FaChevronDown className="text-sm" />
+                  <div className="flex items-center gap-4">
+                    {/* Circle */}
+                    <div
+                      className={`w-4 h-4 rounded-full flex-shrink-0 transition-all duration-300 ${
+                        isActive
+                          ? "bg-[#22d3ee] shadow-[0_0_12px_rgba(34,211,238,0.6)]"
+                          : "bg-slate-500"
+                      }`}
+                    />
+                    {/* Question Text */}
+                    <span
+                      className={`font-medium text-[1.05rem] transition-colors duration-300 ${
+                        isActive ? "text-[#22d3ee]" : "text-slate-300"
+                      }`}
+                    >
+                      {faq.question}
+                    </span>
                   </div>
-                </motion.div>
-              </button>
+                  {/* Arrow */}
+                  <FaChevronRight
+                    className={`flex-shrink-0 transition-colors duration-300 ml-4 ${
+                      isActive ? "text-[#22d3ee]" : "text-slate-500"
+                    }`}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <div className="px-6 pb-6 text-slate-400 text-[0.95rem] leading-relaxed border-t border-[#6366f1]/20 pt-4 mt-2">
-                      {faq.answer}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          );
-        })}
+        {/* Right Side: Answer Display */}
+        <div className="w-full lg:w-[55%] relative flex mt-6 lg:mt-0 z-10">
+          <div className="w-full h-full bg-gradient-to-br from-[#6366f1] to-[#22d3ee] rounded-[1.5rem] rounded-[1.5rm] p-8 md:p-12 md:pl-23 flex flex-col justify-center min-h-[380px] shadow-[0_0_40px_rgba(99,102,241,0.2)]">
+            <AnimatePresence mode="wait">
+              {faqs[openIndex] && (
+                <motion.div
+                  key={openIndex}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 leading-tight">
+                    {faqs[openIndex].question}
+                  </h3>
+                  <p className="text-white/90 text-[1.05rem] leading-relaxed font-medium">
+                    {faqs[openIndex].answer}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </motion.div>
     </SectionWrapper>
   );
