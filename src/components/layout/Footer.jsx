@@ -37,7 +37,7 @@ export default function Footer() {
       <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-5 text-center">
         <a
           href="#home"
-          className="font-extrabold text-[1.3rem] no-underline bg-gradient-to-br from-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent"
+          className="font-extrabold text-[1.3rem] no-underline bg-linear-to-br from-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent"
         >
           Nexcode
         </a>
@@ -90,3 +90,4 @@ export default function Footer() {
     </footer>
   );
 }
+

@@ -27,9 +27,13 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+.section {
+  position: relative;
 }
 
 /* ── Gradient text ──────────────────────────────────────── */
@@ -219,13 +223,17 @@ body {
   transform: translateY(-2px);
 }
 
+.scroll-progress-bar {
+  width: var(--scroll-progress, 0%);
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
-  animation: marquee 25s linear infinite;
+  animation: marquee 60s linear infinite;
   display: flex;
   width: max-content;
 }

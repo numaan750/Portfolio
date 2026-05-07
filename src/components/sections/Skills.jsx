@@ -12,13 +12,11 @@ import {
   SiExpress,
   SiStripe,
   SiCloudinary,
-  SiPostman,
-  SiVercel,
 } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
 import { MdSecurity } from "react-icons/md";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
-import { fadeUp, scaleIn } from "@/lib/animations";
+import { scaleIn } from "@/lib/animations";
 import { skills } from "@/lib/data";
 
 const iconMap = {
@@ -106,7 +104,7 @@ export default function Skills() {
               </div>
               <div className="skill-bar-track">
                 <motion.div
-                  className={`skill-bar-fill bg-gradient-to-r ${catGradient}`}
+                  className={`skill-bar-fill bg-linear-to-r ${catGradient}`}
                   initial={{ width: 0 }}
                   whileInView={{ width: `${skill.level}%` }}
                   viewport={{ once: true }}
@@ -120,3 +118,4 @@ export default function Skills() {
     </SectionWrapper>
   );
 }
+

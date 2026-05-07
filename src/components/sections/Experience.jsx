@@ -21,7 +21,7 @@ export default function Experience() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <motion.div variants={fadeLeft}>
           <div className="flex items-center gap-2.5 mb-7">
-            <div className="w-[36px] h-[36px] rounded-xl bg-gradient-to-br from-[#6366f1]/25 to-[#22d3ee]/25 flex items-center justify-center text-indigo-300 text-base">
+            <div className="w-[36px] h-[36px] rounded-xl bg-linear-to-br from-[#6366f1]/25 to-[#22d3ee]/25 flex items-center justify-center text-indigo-300 text-base">
               <FaBriefcase />
             </div>
             <h3 className="font-extrabold text-[1.1rem]">Work Experience</h3>
@@ -66,7 +66,7 @@ export default function Experience() {
         </motion.div>
         <motion.div variants={fadeRight}>
           <div className="flex items-center gap-2.5 mb-7">
-            <div className="w-[36px] h-[36px] rounded-xl bg-gradient-to-br from-[#6366f1]/25 to-[#22d3ee]/25 flex items-center justify-center text-indigo-300 text-base">
+            <div className="w-[36px] h-[36px] rounded-xl bg-linear-to-br from-[#6366f1]/25 to-[#22d3ee]/25 flex items-center justify-center text-indigo-300 text-base">
               <FaGraduationCap />
             </div>
             <h3 className="font-extrabold text-[1.1rem]">Education</h3>
@@ -75,7 +75,7 @@ export default function Experience() {
           <div className="relative pl-7">
             <div className="timeline-line absolute left-1.5 top-2 h-[100px]" />
 
-            {edu.map((item, i) => (
+            {edu.map((item) => (
               <motion.div
                 key={item.id}
                 variants={fadeUp}
@@ -137,3 +137,4 @@ export default function Experience() {
     </SectionWrapper>
   );
 }
+

@@ -25,9 +25,8 @@ export default function FAQ() {
         viewport={{ once: true, amount: 0.1 }}
         className="w-full flex flex-col lg:flex-row relative mt-8 items-center"
       >
-        {/* Left Side: Questions List */}
+        {" "}
         <div className="w-full lg:w-[50%] flex flex-col justify-center py-6 z-20 relative lg:mr-[-60px] bg-[#0f0f1a] rounded-[1.5rem] shadow-xl min-h-[350px]">
-          {/* Questions */}
           <div className="flex flex-col z-10">
             {faqs.map((faq, index) => {
               const isActive = openIndex === index;
@@ -43,7 +42,6 @@ export default function FAQ() {
                   }`}
                 >
                   <div className="flex items-center gap-4">
-                    {/* Circle */}
                     <div
                       className={`w-4 h-4 rounded-full flex-shrink-0 transition-all duration-300 ${
                         isActive
@@ -51,7 +49,6 @@ export default function FAQ() {
                           : "bg-slate-500"
                       }`}
                     />
-                    {/* Question Text */}
                     <span
                       className={`font-medium text-[1.05rem] transition-colors duration-300 ${
                         isActive ? "text-[#22d3ee]" : "text-slate-300"
@@ -60,7 +57,6 @@ export default function FAQ() {
                       {faq.question}
                     </span>
                   </div>
-                  {/* Arrow */}
                   <FaChevronRight
                     className={`flex-shrink-0 transition-colors duration-300 ml-4 ${
                       isActive ? "text-[#22d3ee]" : "text-slate-500"
@@ -71,10 +67,8 @@ export default function FAQ() {
             })}
           </div>
         </div>
-
-        {/* Right Side: Answer Display */}
         <div className="w-full lg:w-[55%] relative flex mt-6 lg:mt-0 z-10">
-          <div className="w-full h-full bg-gradient-to-br from-[#6366f1] to-[#22d3ee] rounded-[1.5rem] rounded-[1.5rm] p-8 md:p-12 md:pl-23 flex flex-col justify-center min-h-[380px] shadow-[0_0_40px_rgba(99,102,241,0.2)]">
+          <div className="w-full h-full bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-[1.5rem] p-8 md:p-12 md:pl-25 flex flex-col justify-center min-h-[380px] shadow-[0_0_40px_rgba(99,102,241,0.2)]">
             <AnimatePresence mode="wait">
               {faqs[openIndex] && (
                 <motion.div

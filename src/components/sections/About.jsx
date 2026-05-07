@@ -40,17 +40,11 @@ export default function About() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-stretch">
         <motion.div variants={fadeLeft} className="h-full">
           <div className="glass px-5 sm:px-8 py-7 sm:py-9 h-full flex flex-col">
-            <h3 className="font-extrabold text-xl mb-4 bg-gradient-to-br from-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent w-max">
+            <h3 className="font-extrabold text-xl mb-4 bg-linear-to-br from-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent w-max">
               My Story
             </h3>
             <p className="text-slate-400 leading-[1.85] mb-4 text-[0.97rem]">
               {personalInfo.summary}
-            </p>
-            <p className="text-slate-400 leading-[1.85] text-[0.97rem]">
-              I love turning complex problems into elegant, user-friendly
-              solutions. Whether it's a pixel-perfect UI or a scalable REST API,
-              I care deeply about code quality, performance, and great user
-              experiences.
             </p>
 
             <div className="mt-auto pt-7">
@@ -83,7 +77,7 @@ export default function About() {
                 }
                 className="glass flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 transition-colors hover:border-[#6366f1]/40 block"
               >
-                <div className="w-[42px] h-[42px] rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-[#22d3ee]/20 flex items-center justify-center text-indigo-300 text-[1.1rem] shrink-0">
+                <div className="w-[42px] h-[42px] rounded-xl bg-linear-to-br from-[#6366f1]/20 to-[#22d3ee]/20 flex items-center justify-center text-indigo-300 text-[1.1rem] shrink-0">
                   {item.icon}
                 </div>
 

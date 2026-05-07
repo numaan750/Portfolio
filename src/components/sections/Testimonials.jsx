@@ -28,28 +28,19 @@ export default function Testimonials() {
             variants={fadeUp}
             className="glass relative p-6 sm:p-8 rounded-2xl flex flex-col justify-between group hover:-translate-y-2 transition-transform duration-300"
           >
-            {/* Background Glow */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/5 to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-indigo-500/5 to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-            {/* Quote Icon */}
-            <FaQuoteRight className="text-[28px] sm:text-[32px] text-indigo-300/20 absolute top-3 right-3 group-hover:text-indigo-300/40 transition-colors duration-300" />
-
-            {/* Content */}
+            <FaQuoteRight className="text-[20px] sm:text-[24px] text-indigo-300/20 absolute top-3 right-3 group-hover:text-indigo-300/40 transition-colors duration-300" />
             <p className="text-slate-400 text-sm sm:text-[0.95rem] leading-relaxed sm:leading-[1.8] mb-6 sm:mb-8 italic relative z-10 font-light">
-              "{item.content}"
+              &ldquo;{item.content}&rdquo;
             </p>
-
-            {/* User Info */}
             <div className="flex items-center gap-3 sm:gap-4 mt-auto relative z-10">
-              
-              {/* Icon Avatar */}
-              <div className="relative">                
+              <div className="relative">
                 <div className="w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg bg-slate-800 border-2 border-indigo-500/20 relative z-10">
                   <FaUser className="text-indigo-400 text-[22px] sm:text-[24px]" />
                 </div>
               </div>
 
-              {/* Text */}
               <div>
                 <h4 className="font-extrabold text-sm sm:text-base text-slate-100 tracking-wide">
                   {item.name}
@@ -58,7 +49,6 @@ export default function Testimonials() {
                   {item.role}
                 </p>
               </div>
-
             </div>
           </motion.div>
         ))}

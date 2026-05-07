@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiExternalLink } from "react-icons/hi";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
@@ -19,6 +20,7 @@ const FILTERS = [
 
 export default function Projects({ showAll = false }) {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [visibleImages, setVisibleImages] = useState({});
 
   const filtered =
     activeFilter === "All"
@@ -41,7 +43,7 @@ export default function Projects({ showAll = false }) {
               onClick={() => setActiveFilter(f)}
               className={`px-4.5 py-2 rounded-lg border font-semibold text-[0.82rem] cursor-pointer transition-all duration-250 ${
                 activeFilter === f
-                  ? "border-[#6366f1] bg-gradient-to-br from-[#6366f1] to-[#22d3ee] text-white"
+                  ? "border-[#6366f1] bg-linear-to-br from-[#6366f1] to-[#22d3ee] text-white"
                   : "border-[#6366f1]/20 bg-transparent text-slate-400"
               }`}
             >
@@ -52,7 +54,7 @@ export default function Projects({ showAll = false }) {
       )}
       <div className="grid grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-6 max-sm:grid-cols-1">
         <AnimatePresence mode="popLayout">
-          {displayedProjects.map((project, i) => (
+          {displayedProjects.map((project) => (
             <motion.div
               key={project.id}
               variants={scaleIn}
@@ -63,20 +65,27 @@ export default function Projects({ showAll = false }) {
               className="glass project-card overflow-hidden group"
             >
               <div className="h-[250px] relative overflow-hidden bg-[#0d0d1a]">
-                <img
-                  src={`https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url&type=jpeg`}
-                  alt={project.title}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d1a]/70 via-[#0d0d1a]/20 to-transparent" />
-                <span className="absolute top-3.5 left-4 bg-gradient-to-br from-[#6366f1] to-[#22d3ee] backdrop-blur-sm border border-white/10 rounded-full px-3 py-1 text-[0.72rem] font-bold text-slate-100 tracking-[0.06em]">
+                {visibleImages[project.id] !== false && (
+                  <Image
+                    src={`https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url&type=jpeg`}
+                    alt={project.title}
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    unoptimized
+                    onError={() =>
+                      setVisibleImages((prev) => ({
+                        ...prev,
+                        [project.id]: false,
+                      }))
+                    }
+                  />
+                )}
+                <div className="absolute inset-0 bg-linear-to-t from-[#0d0d1a]/70 via-[#0d0d1a]/20 to-transparent" />
+                <span className="absolute top-3.5 left-4 bg-linear-to-br from-[#6366f1] to-[#22d3ee] backdrop-blur-sm border border-white/10 rounded-full px-3 py-1 text-[0.72rem] font-bold text-slate-100 tracking-[0.06em]">
                   {project.category}
                 </span>
                 {project.featured && (
-                  <span className="absolute top-3.5 right-3.5 bg-gradient-to-br from-[#6366f1] to-[#22d3ee] rounded-full px-2.5 py-1 text-[0.68rem] font-extrabold text-white tracking-[0.06em] uppercase">
+                  <span className="absolute top-3.5 right-3.5 bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-full px-2.5 py-1 text-[0.68rem] font-extrabold text-white tracking-[0.06em] uppercase">
                     ★ Featured
                   </span>
                 )}
@@ -121,3 +130,4 @@ export default function Projects({ showAll = false }) {
     </SectionWrapper>
   );
 }
+

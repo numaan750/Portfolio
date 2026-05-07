@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import { HiCheckCircle } from "react-icons/hi";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
-import { fadeLeft, fadeRight, fadeUp } from "@/lib/animations";
+import { fadeLeft, fadeRight } from "@/lib/animations";
 import { personalInfo } from "@/lib/data";
 
 const SOCIAL = [
@@ -80,7 +80,7 @@ export default function Contact() {
       if (!res.ok) throw new Error(data.error || "Failed");
 
       setSent(true);
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -100,7 +100,7 @@ export default function Contact() {
           <div className="glass px-6 py-7">
             <h3 className="font-extrabold text-[1.15rem] mb-3">Get In Touch</h3>
             <p className="text-slate-400 text-[0.9rem] leading-[1.75] mb-6">
-              I'm currently open to freelance projects and full-time
+              I&apos;m currently open to freelance projects and full-time
               opportunities. Whether you have a question or just want to say hi,
               my inbox is always open!
             </p>
@@ -173,7 +173,7 @@ export default function Contact() {
                   Message Sent!
                 </h3>
                 <p className="text-slate-400 text-[0.9rem]">
-                  Thanks for reaching out. I'll get back to you soon!
+                  Thanks for reaching out. I&apos;ll get back to you soon!
                 </p>
                 <button
                   onClick={() => {
@@ -255,9 +255,10 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="btn-primary w-full justify-center"
+                  className={`btn-primary w-full justify-center transition-opacity duration-200 ${
+                    loading ? 'opacity-70 pointer-events-none' : ''
+                  }`}
                   disabled={loading}
-                  style={{ opacity: loading ? 0.7 : 1 }}
                 >
                   {loading ? (
                     <span className="flex items-center gap-2 justify-center">
@@ -297,3 +298,4 @@ export default function Contact() {
     </SectionWrapper>
   );
 }
+

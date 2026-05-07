@@ -5,13 +5,6 @@ import { FaGithub, FaLinkedinIn, FaEnvelope, FaPhone } from "react-icons/fa";
 import { HiArrowRight } from "react-icons/hi";
 import { personalInfo } from "@/lib/data";
 
-const floatAnim = {
-  animate: {
-    y: [0, -18, 0],
-    transition: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-  },
-};
-
 export default function Hero() {
   const handleScroll = (href) => {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
@@ -152,3 +145,4 @@ export default function Hero() {
     </section>
   );
 }
+

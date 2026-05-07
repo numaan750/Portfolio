@@ -100,9 +100,8 @@ export default function Navbar() {
             >
               Nexcode
             </a>
-            <div className="hidden md:flex gap-2 items-center bg-white/5 rounded-xl px-4 py-1.5">
+            <div className="hidden md:flex gap-2 items-center">
               {NAV_LINKS.map((link) => {
-                const id = link.href.replace("#", "");
                 const isActive = activeLinkHref === link.href;
                 return (
                   <a
@@ -114,7 +113,7 @@ export default function Navbar() {
                     }}
                     className={`px-4 py-1.5 rounded-lg text-sm font-medium no-underline transition-all duration-250 border ${
                       isActive
-                        ? "text-white bg-gradient-to-br from-[#6366f1] to-[#22d3ee] border-transparent shadow-[0_4px_16px_rgba(99,102,241,0.35)]"
+                        ? "text-white bg-linear-to-br from-[#6366f1] to-[#22d3ee] border-transparent shadow-[0_4px_16px_rgba(99,102,241,0.35)]"
                         : "text-slate-300 bg-white/10 border-transparent hover:text-white hover:border-white/30 hover:bg-white/8"
                     }`}
                   >
@@ -144,7 +143,6 @@ export default function Navbar() {
             className="fixed top-[88px] left-6 right-6 z-[99] bg-[#07070f]/95 backdrop-blur-xl border border-[#6366f1]/10 rounded-2xl px-6 pt-4 pb-7 md:hidden"
           >
             {NAV_LINKS.map((link) => {
-              const id = link.href.replace("#", "");
               const isActive = activeLinkHref === link.href;
               return (
                 <a
@@ -168,3 +166,4 @@ export default function Navbar() {
     </>
   );
 }
+

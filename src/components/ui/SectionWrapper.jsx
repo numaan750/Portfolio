@@ -29,3 +29,4 @@ export function SectionHeader({ tag, title, subtitle }) {
     </motion.div>
   )
 }
+
