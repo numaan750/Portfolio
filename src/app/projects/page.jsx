@@ -11,5 +11,6 @@ export default function ProjectsPage() {
       </main>
       <Footer />
     </>
+    
   );
 }
