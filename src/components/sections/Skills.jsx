@@ -2,16 +2,11 @@
 
 import { motion } from "framer-motion";
 import {
-  SiNextdotjs,
-  SiReact,
-  SiTailwindcss,
-  SiRedux,
-  SiNodedotjs,
-  SiMongodb,
-  SiGithub,
-  SiExpress,
-  SiStripe,
-  SiCloudinary,
+  SiNextdotjs, SiReact, SiTailwindcss, SiRedux,
+  SiNodedotjs, SiMongodb, SiGithub, SiExpress,
+  SiStripe, SiCloudinary, SiHtml5, SiCss,
+  SiJavascript, SiTypescript, SiVercel,
+  SiPostman, SiOpenai, SiGoogle,
 } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
 import { MdSecurity } from "react-icons/md";
@@ -30,6 +25,15 @@ const iconMap = {
   SiGithub: <SiGithub />,
   SiStripe: <SiStripe />,
   SiCloudinary: <SiCloudinary />,
+  SiHtml5: <SiHtml5 />,
+  SiCss: <SiCss />,
+  SiJavascript: <SiJavascript />,
+  SiTypescript: <SiTypescript />,
+  SiVercel: <SiVercel />,
+  SiPostman: <SiPostman />,
+  SiOpenai: <SiOpenai />,
+  SiGoogle: <SiGoogle />,
+  SiMongoose: <SiMongodb />,
   TbApi: <TbApi />,
   SiJsonwebtokens: <MdSecurity />,
 };
@@ -42,6 +46,7 @@ const categoryClasses = {
   Security: "bg-amber-500/15 border-amber-500/30 text-amber-300",
   Tools: "bg-red-500/15 border-red-500/25 text-red-300",
   Payments: "bg-indigo-500/15 border-indigo-500/30 text-indigo-300",
+  AI: "bg-violet-500/15 border-violet-500/35 text-violet-300",
 };
 
 const categoryGradients = {
@@ -52,6 +57,7 @@ const categoryGradients = {
   Security: "from-amber-500/60 to-amber-500",
   Tools: "from-red-500/60 to-red-500",
   Payments: "from-indigo-500/60 to-indigo-500",
+  AI: "from-violet-500/60 to-violet-500",
 };
 
 export default function Skills() {
@@ -63,7 +69,7 @@ export default function Skills() {
         subtitle="Technologies and tools I use to build robust, scalable applications."
       />
 
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-5">
+      <div className="flex gap-5 overflow-x-auto overflow-y-visible py-6">
         {skills.map((skill, i) => {
           const catClass =
             categoryClasses[skill.category] || categoryClasses["Tools"];
@@ -78,7 +84,7 @@ export default function Skills() {
                 y: -4,
                 boxShadow: "0 12px 32px rgba(99,102,241,0.2)",
               }}
-              className="glass px-5 py-5.5 cursor-default transition-all duration-250"
+              className="glass px-5 py-5.5 cursor-default transition-all duration-250 shrink-0 w-[240px]"
             >
               <div className="flex items-center gap-3 mb-3.5">
                 <div
@@ -87,12 +93,10 @@ export default function Skills() {
                   {iconMap[skill.icon] ?? <TbApi />}
                 </div>
                 <div className="flex-1">
-                  <div className="font-bold text-[0.92rem] text-slate-100 mb-0.5">
+                  <div className="font-bold text-[0.92rem] text-slate-100 mb-0.5 truncate">
                     {skill.name}
                   </div>
-                  <span
-                    className={`text-[0.7rem] font-bold tracking-[0.08em] uppercase border rounded-full px-2 py-0.5 ${catClass}`}
-                  >
+                  <span className={`text-[0.7rem] font-bold tracking-[0.08em] uppercase border rounded-full px-2 py-0.5 whitespace-nowrap ${catClass}`}>
                     {skill.category}
                   </span>
                 </div>

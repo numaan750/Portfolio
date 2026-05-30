@@ -15,8 +15,17 @@ export default function Hero() {
       id="home"
       className="min-h-screen flex items-center relative overflow-hidden py-20 pt-28 md:pt-32"
     >
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        src="/Portfolio-background-Video.mp4"
+      />
+      <div className="absolute inset-0 bg-black/80 z-0" />
       <div className="mesh-bg" />
-      <div className="dot-grid" />
+      <div className="dot-grid" style={{ position: 'relative', zIndex: 1 }} />
       <motion.div
         animate={{ scale: [1, 1.08, 1], opacity: [0.18, 0.28, 0.18] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
@@ -40,7 +49,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#6366f1]/30 bg-[#6366f1]/10 text-xs font-semibold text-indigo-300 tracking-[0.06em] uppercase mb-4"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#6366f1]/60 bg-[#6366f1]/30 text-xs font-semibold text-white tracking-[0.06em] uppercase mb-4"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee] inline-block animate-[pulse_2s_infinite]" />
               Available for Work
@@ -60,7 +69,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.7 }}
-              className="text-[clamp(1.2rem,3vw,1.75rem)] font-bold text-slate-400 mb-4 tracking-[-0.01em]"
+              className="text-[clamp(1.2rem,3vw,1.75rem)] font-bold text-gray-300 mb-4 tracking-[-0.01em]"
             >
               {personalInfo.title}
             </motion.div>
@@ -68,9 +77,9 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.7 }}
-              className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-[90%] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[900px] mb-4 mx-auto px-2 sm:px-0 text-center"
+              className="text-slate-100 text-sm sm:text-base leading-relaxed max-w-[90%] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[900px] mb-4 mx-auto px-2 sm:px-0 text-center"
             >
-              {personalInfo.summary}
+              Full-Stack MERN Developer with 2+ years of experience building scalable web applications, REST APIs, and AI-powered solutions using OpenAI & Claude.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
