@@ -10,26 +10,15 @@ export default function Footer() {
   const router = useRouter();
 
   const FOOTER_LINKS = [
-    { label: "Home", href: "#home", type: "scroll" },
-    { label: "About", href: "#about", type: "scroll" },
-    { label: "Skills", href: "#skills", type: "scroll" },
+    { label: "Home", href: "/", type: "page" },
+    { label: "About", href: "/about", type: "page" },
+    { label: "Skills", href: "/skills", type: "page" },
     { label: "Projects", href: "/projects", type: "page" },
-    { label: "Experience", href: "#experience", type: "scroll" },
-    { label: "Contact", href: "#contact", type: "scroll" },
+    { label: "Contact", href: "/contact", type: "page" },
   ];
 
-  const handleFooterNav = (href, type) => {
-    if (type === "page") {
-      router.push(href);
-      return;
-    }
-    const section = href.replace("#", "");
-    if (pathname !== "/") {
-      router.push(`/#${section}`);
-    } else {
-      const el = document.getElementById(section);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleFooterNav = (href) => {
+    router.push(href);
   };
 
   return (

@@ -29,7 +29,7 @@ export default function Projects({ showAll = false }) {
   const displayedProjects = showAll ? filtered : filtered.slice(0, 4);
 
   return (
-    <SectionWrapper id="projects" className="pt-10 pb-10">
+    <SectionWrapper id="projects" className="pt-15 pb-15">
       <SectionHeader
         tag="Projects"
         title="What I've Built"
@@ -130,3 +130,4 @@ export default function Projects({ showAll = false }) {
     </SectionWrapper>
   );
 }
+

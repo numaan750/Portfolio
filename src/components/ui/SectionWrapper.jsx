@@ -25,7 +25,7 @@ export function SectionHeader({ tag, title, subtitle }) {
     <motion.div variants={fadeUp} className="mb-14">
       {tag && <p className="section-tag">{tag}</p>}
       <h2 className="section-title">{title}</h2>
-      {subtitle && <p className="section-sub">{subtitle}</p>}
+{subtitle && <p className="section-sub" style={{ maxWidth: 'none' }}>{subtitle}</p>}
     </motion.div>
   )
 }

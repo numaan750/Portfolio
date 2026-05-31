@@ -11,7 +11,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <SectionWrapper id="faq" className="pt-10 pb-10">
+    <SectionWrapper id="faq" className="pt-15">
       <SectionHeader
         tag="FAQ"
         title="Frequently Asked Questions"
@@ -68,7 +68,7 @@ export default function FAQ() {
           </div>
         </div>
         <div className="w-full lg:w-[55%] relative flex mt-6 lg:mt-0 z-10">
-          <div className="w-full h-full bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-[1.5rem] p-8 md:p-12 md:pl-25 flex flex-col justify-center min-h-[380px] shadow-[0_0_40px_rgba(99,102,241,0.2)]">
+          <div className="w-full h-full bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-[1.5rem] p-8 md:p-12 md:pl-25 flex flex-col justify-center min-h-95 shadow-[0_0_40px_rgba(99,102,241,0.2)]">
             <AnimatePresence mode="wait">
               {faqs[openIndex] && (
                 <motion.div
@@ -93,3 +93,4 @@ export default function FAQ() {
     </SectionWrapper>
   );
 }
+

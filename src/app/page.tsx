@@ -1,16 +1,18 @@
-import Navbar        from '@/components/layout/Navbar'
+import Navbar from '@/components/layout/Navbar'
 import ScrollProgress from '@/components/layout/ScrollProgress'
-import Hero           from '@/components/sections/Hero'
-import TechMarquee    from '@/components/sections/TechMarquee'
-import About          from '@/components/sections/About'
-import Skills         from '@/components/sections/Skills'
-import Process        from '@/components/sections/Process'
-import Projects       from '@/components/sections/Projects'
-import Testimonials   from '@/components/sections/Testimonials'
-import FAQ            from '@/components/sections/FAQ'
-import Experience     from '@/components/sections/Experience'
-import Contact        from '@/components/sections/Contact'
-import Footer         from '@/components/layout/Footer'
+import Hero from '@/components/home/Hero'
+import TechMarquee from '@/components/home/TechMarquee'
+import HomeServices from '@/components/home/HomeServices'
+import HomePortfolio from '@/components/home/HomePortfolio'
+import HomeStats from '@/components/home/HomeStats'
+import HomeCaseStudies from '@/components/home/HomeCaseStudies'
+import HomeWhyChoose from '@/components/home/HomeWhyChoose'
+import HomeTestimonialsAlt from '@/components/home/HomeTestimonialsAlt'
+// import HomePartners from '@/components/home/HomePartners'
+import HomeBoost from '@/components/home/HomeBoost'
+import HomeCta from '@/components/home/HomeCta'
+import FAQ from '@/components/home/FAQ'
+import Footer from '@/components/layout/Footer'
 
 export default function Home() {
   return (
@@ -20,14 +22,16 @@ export default function Home() {
       <main>
         <Hero />
         <TechMarquee />
-        <About />
-        <Skills />
-        <Process />
-        <Projects />
-        <Testimonials />
+        <HomeServices />
+        <HomeWhyChoose />
+        <HomePortfolio />
+        <HomeBoost />
+        <HomeStats />
+        <HomeCaseStudies />
+        <HomeTestimonialsAlt />
+        {/* <HomePartners /> */}
         <FAQ />
-        <Experience />
-        <Contact />
+        <HomeCta />
       </main>
       <Footer />
     </>

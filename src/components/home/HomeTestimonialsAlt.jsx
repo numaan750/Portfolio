@@ -4,16 +4,21 @@ import { motion } from "framer-motion";
 import { FaQuoteRight, FaUser } from "react-icons/fa";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
 import { fadeUp, staggerContainer } from "@/lib/animations";
+import HomePartners from "@/components/home/HomePartners";
 import { testimonials } from "@/lib/data";
 
 export default function Testimonials() {
   return (
-    <SectionWrapper id="testimonials" className="pt-10 pb-10">
+    <SectionWrapper id="testimonials" className="pt-15">
       <SectionHeader
         tag="Testimonials"
         title="Client Reviews"
         subtitle="What people are saying about my work and collaboration."
       />
+
+      <div className="mb-10 sm:mb-14">
+        <HomePartners />
+      </div>
 
       <motion.div
         variants={staggerContainer}
@@ -56,3 +61,4 @@ export default function Testimonials() {
     </SectionWrapper>
   );
 }
+

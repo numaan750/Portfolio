@@ -6,28 +6,21 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { usePathname, useRouter } from "next/navigation";
 
 const NAV_LINKS = [
-  { label: "Home", href: "#home", type: "scroll" },
-  { label: "About", href: "#about", type: "scroll" },
-  { label: "Skills", href: "#skills", type: "scroll" },
-  { label: "Experience", href: "#experience", type: "scroll" },
-  // { label: "Blog", href: "/blog", type: "page" },
-  { label: "Contact", href: "#contact", type: "scroll" },
+  { label: "Home", href: "/", type: "page" },
+  { label: "About", href: "/about", type: "page" },
+  { label: "Skills", href: "/skills", type: "page" },
+  { label: "Contact", href: "/contact", type: "page" },
   { label: "Projects", href: "/projects", type: "page" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
   const pathname = usePathname();
   const router = useRouter();
-  const activeLink = NAV_LINKS.find((l) =>
-    l.type === "page"
-      ? pathname === l.href
-      : activeSection === l.href.replace("#", ""),
-  );
+  const activeLink = NAV_LINKS.find((link) => pathname === link.href);
   const activeLinkHref = activeLink?.href ?? "";
 
   useEffect(() => {
@@ -41,36 +34,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const ids = NAV_LINKS.map((l) => l.href.replace("#", ""));
-    const observers = ids.map((id) => {
-      const el = document.getElementById(id);
-      if (!el) return null;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveSection(id);
-        },
-        { threshold: 0.4 },
-      );
-      obs.observe(el);
-      return obs;
-    });
-    return () => observers.forEach((o) => o?.disconnect());
-  }, []);
-
-  const handleNavClick = (href, type) => {
+  const handleNavClick = (href) => {
     setMenuOpen(false);
-    if (type === "page") {
-      router.push(href);
-      return;
-    }
-    // type === "scroll"
-    if (pathname !== "/") {
-      router.push(`/${href}`);
-    } else {
-      const el = document.querySelector(href);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }
+    router.push(href);
   };
 
   return (
@@ -91,10 +57,15 @@ export default function Navbar() {
         >
           <div className="flex items-center justify-between h-[70px] px-5">
             <a
-              href="#home"
+              href="/"
               onClick={(e) => {
                 e.preventDefault();
-                handleNavClick("#home", "scroll");
+                setMenuOpen(false);
+                if (pathname === "/") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                } else {
+                  router.push("/");
+                }
               }}
               className="font-extrabold text-xl no-underline tracking-tight gradient-text"
             >

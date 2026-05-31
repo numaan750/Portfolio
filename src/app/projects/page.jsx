@@ -1,6 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Projects from "@/components/sections/Projects";
+import Projects from "@/components/home/Projects";
 
 export default function ProjectsPage() {
   return (
@@ -11,6 +11,5 @@ export default function ProjectsPage() {
       </main>
       <Footer />
     </>
-    
   );
 }

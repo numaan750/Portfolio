@@ -88,14 +88,14 @@ export default function Contact() {
   };
 
   return (
-    <SectionWrapper id="contact" className="pt-10 pb-20">
+    <SectionWrapper id="contact" className="pt-15">
       <SectionHeader
         tag="Contact"
         title="Let's Work Together"
         subtitle="Have a project in mind? I'd love to hear about it. Drop me a message!"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-10 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
         <motion.div variants={fadeLeft} className="flex flex-col gap-5 h-full">
           <div className="glass px-6 py-7">
             <h3 className="font-extrabold text-[1.15rem] mb-3">Get In Touch</h3>
@@ -161,7 +161,7 @@ export default function Contact() {
           </div>
         </motion.div>
         <motion.div variants={fadeRight} className="h-full">
-          <div className="glass px-8 py-9 h-full flex flex-col">
+          <div className="glass px-6 py-6 h-full flex flex-col">
             {sent ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -298,4 +298,5 @@ export default function Contact() {
     </SectionWrapper>
   );
 }
+
 

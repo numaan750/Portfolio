@@ -18,7 +18,7 @@ export default function Experience() {
         subtitle="Professional milestones and academic background that shaped my expertise."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
         <motion.div variants={fadeLeft}>
           <div className="flex items-center gap-2.5 mb-7">
             <div className="w-[36px] h-[36px] rounded-xl bg-linear-to-br from-[#6366f1]/25 to-[#22d3ee]/25 flex items-center justify-center text-indigo-300 text-base">
@@ -137,4 +137,5 @@ export default function Experience() {
     </SectionWrapper>
   );
 }
+
 

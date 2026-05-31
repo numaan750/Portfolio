@@ -98,11 +98,7 @@ export default function Hero() {
                 View My Work <HiArrowRight />
               </a>
               <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleScroll("#contact");
-                }}
+                href="/contact"
                 className="btn-outline"
               >
                 Get In Touch
@@ -154,4 +150,5 @@ export default function Hero() {
     </section>
   );
 }
+
 
