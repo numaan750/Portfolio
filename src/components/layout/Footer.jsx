@@ -12,6 +12,7 @@ export default function Footer() {
   const FOOTER_LINKS = [
     { label: "Home", href: "/", type: "page" },
     { label: "About", href: "/about", type: "page" },
+    { label: "Services", href: "/services", type: "page" },
     { label: "Skills", href: "/skills", type: "page" },
     { label: "Projects", href: "/projects", type: "page" },
     { label: "Contact", href: "/contact", type: "page" },
@@ -23,7 +24,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-[#6366f1]/20 bg-[#0d0d1a]/60 backdrop-blur-md py-10 px-6">
-      <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-5 text-center">
+      <div className="max-w-300 mx-auto flex flex-col items-center gap-5 text-center">
         <a
           href="#home"
           className="font-extrabold text-[1.3rem] no-underline bg-linear-to-br from-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent"

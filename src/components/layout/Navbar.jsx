@@ -8,9 +8,10 @@ import { usePathname, useRouter } from "next/navigation";
 const NAV_LINKS = [
   { label: "Home", href: "/", type: "page" },
   { label: "About", href: "/about", type: "page" },
+  { label: "Services", href: "/services", type: "page" },
   { label: "Skills", href: "/skills", type: "page" },
-  { label: "Contact", href: "/contact", type: "page" },
   { label: "Projects", href: "/projects", type: "page" },
+  { label: "Contact", href: "/contact", type: "page" },
 ];
 
 export default function Navbar() {
