@@ -13,7 +13,7 @@ const apiRoutes = require('./routes/apiRoutes');
 
 const app = express();
 app.set('trust proxy', 1);
-const PORT = process.env.PORT || 3000;
+// const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
@@ -48,6 +48,12 @@ app.use((err, req, res, next) => {
 });
 
 // Start server after DB connection
-connectDB().then(() => {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// connectDB().then(() => {
+//   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// });
+
+app.get("/", (req, res) => {
+  res.send("Soulmate Backend is running");
 });
+
+module.exports = app;
