@@ -53,7 +53,7 @@ app.use((err, req, res, next) => {
 // });
 
 app.get("/", (req, res) => {
-  res.send("Soulmate Backend is running");
+  res.send("portfolio backend is running");
 });
 
 module.exports = app;
