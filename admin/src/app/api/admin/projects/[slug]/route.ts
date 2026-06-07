@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server';
 
 const BACKEND_URL = process.env.BACKEND_URL;
 
-export async function GET(req: Request, context: { params: { slug: string } }) {
+export async function GET(req: Request, context: { params: Promise<{ slug: string }> }) {
   if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
 
-  const { slug } = context.params;
+  const { slug } = await context.params;
   const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
 
   const res = await fetch(`${BACKEND_URL}/admin/projects/${encodeURIComponent(slug)}`, {
@@ -20,10 +20,10 @@ export async function GET(req: Request, context: { params: { slug: string } }) {
   return NextResponse.json(data, { status: res.status });
 }
 
-export async function PUT(req: Request, context: { params: { slug: string } }) {
+export async function PUT(req: Request, context: { params: Promise<{ slug: string }> }) {
   if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
 
-  const { slug } = context.params;
+  const { slug } = await context.params;
   const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
   const body = await req.json().catch(() => ({}));
 
@@ -40,10 +40,10 @@ export async function PUT(req: Request, context: { params: { slug: string } }) {
   return NextResponse.json(data, { status: res.status });
 }
 
-export async function DELETE(req: Request, context: { params: { slug: string } }) {
+export async function DELETE(req: Request, context: { params: Promise<{ slug: string }> }) {
   if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
 
-  const { slug } = context.params;
+  const { slug } = await context.params;
   const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
 
   const res = await fetch(`${BACKEND_URL}/admin/projects/${encodeURIComponent(slug)}`, {
