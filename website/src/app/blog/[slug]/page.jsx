@@ -6,8 +6,7 @@ import { FiCalendar, FiUser, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import RichText from "@/components/ui/RichText";
 
 async function getBlog(slug) {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-  const res = await fetch(`${apiUrl}/api/blogs/${slug}`, {
+  const res = await fetch(`/api/blogs/${encodeURIComponent(slug)}`, {
     next: { revalidate: 60 },
   });
   if (!res.ok) return null;
@@ -16,8 +15,7 @@ async function getBlog(slug) {
 
 async function getAllBlogs() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    const res = await fetch(`${apiUrl}/api/blogs`, { next: { revalidate: 60 } });
+    const res = await fetch(`/api/blogs`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     return res.json();
   } catch {

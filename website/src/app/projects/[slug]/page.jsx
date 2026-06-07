@@ -6,9 +6,9 @@ import { FiExternalLink, FiGithub } from "react-icons/fi";
 import { HiOutlineCode } from "react-icons/hi";
 import RichText from "@/components/ui/RichText";
 
+
 async function getProject(slug) {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-  const res = await fetch(`${apiUrl}/api/projects/${slug}`, {
+  const res = await fetch(`/api/projects/${encodeURIComponent(slug)}`, {
     next: { revalidate: 60 },
   });
   if (!res.ok) return null;

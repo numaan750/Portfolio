@@ -55,7 +55,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // --- AUTH ---
   const login = async (email: string, password: string) => {
-    const { data } = await api.post('/auth/login', { email, password });
+    const { data } = await api.post('/api/auth/login', { email, password });
     localStorage.setItem('token', data.token);
     document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict`;
     router.push('/dashboard');
@@ -71,7 +71,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const fetchBlogs = async () => {
     setBlogsLoading(true);
     try {
-      const { data } = await api.get('/admin/blogs');
+      const { data } = await api.get('/api/admin/blogs');
       setBlogs(data);
     } finally {
       setBlogsLoading(false);
@@ -79,22 +79,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const getBlog = async (slug: string): Promise<Blog> => {
-    const { data } = await api.get(`/admin/blogs/${slug}`);
+    const { data } = await api.get(`/api/admin/blogs/${slug}`);
     return data;
   };
 
   const createBlog = async (payload: Partial<Blog>) => {
-    await api.post('/admin/blogs', payload);
+    await api.post('/api/admin/blogs', payload);
     await fetchBlogs();
   };
 
   const updateBlog = async (slug: string, payload: Partial<Blog>) => {
-    await api.put(`/admin/blogs/${slug}`, payload);
+    await api.put(`/api/admin/blogs/${slug}`, payload);
     await fetchBlogs();
   };
 
   const deleteBlog = async (slug: string) => {
-    await api.delete(`/admin/blogs/${slug}`);
+    await api.delete(`/api/admin/blogs/${slug}`);
     setBlogs((prev) => prev.filter((b) => b.slug !== slug));
   };
 

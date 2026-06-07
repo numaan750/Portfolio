@@ -5,9 +5,9 @@ import { FiCalendar, FiClock, FiBookOpen } from "react-icons/fi";
 import RichText from "@/components/ui/RichText";
 // import ReviewForm from '@/components/caseStudy/ReviewForm';
 
+
 async function getCaseStudy(slug) {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-  const res = await fetch(`${apiUrl}/api/casestudies/${slug}`, {
+  const res = await fetch(`/api/casestudies/${encodeURIComponent(slug)}`, {
     next: { revalidate: 60 },
   });
   if (!res.ok) return null;
