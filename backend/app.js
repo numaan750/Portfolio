@@ -45,7 +45,17 @@ app.use((err, req, res, next) => {
   if (err.message?.includes('images are allowed')) {
     return res.status(400).json({ error: err.message });
   }
-  res.status(500).json({ error: 'Server error' });
+  res.status(500).json({ error: 'Server error', details: err.message, stack: err.stack });
 });
 
 module.exports = app;
+
+if (require.main === module) {
+  // LOCAL DEVELOPMENT: Local run karne ke liye server start karega (Default Port: 5000)
+  // LIVE VERCEL: Vercel ise module ki tarah import karta hai, is liye yeh block automatically ignore ho jata hai.
+  // IS LIYE: Aap ko live karte waqt is code ko comment/uncomment karne ki bilkul zaroorat nahi hai. Yeh automatically manage ho jaye ga!
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server is running locally on port ${PORT}`);
+  });
+}
