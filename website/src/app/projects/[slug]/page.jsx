@@ -7,8 +7,10 @@ import { HiOutlineCode } from "react-icons/hi";
 import RichText from "@/components/ui/RichText";
 
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+
 async function getProject(slug) {
-  const res = await fetch(`/api/projects/${encodeURIComponent(slug)}`, {
+  const res = await fetch(`${BACKEND_URL}/api/projects/${encodeURIComponent(slug)}`, {
     next: { revalidate: 60 },
   });
   if (!res.ok) return null;

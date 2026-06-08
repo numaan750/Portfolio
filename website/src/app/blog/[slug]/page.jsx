@@ -5,8 +5,10 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import { FiCalendar, FiUser, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import RichText from "@/components/ui/RichText";
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+
 async function getBlog(slug) {
-  const res = await fetch(`/api/blogs/${encodeURIComponent(slug)}`, {
+  const res = await fetch(`${BACKEND_URL}/api/blogs/${encodeURIComponent(slug)}`, {
     next: { revalidate: 60 },
   });
   if (!res.ok) return null;
@@ -15,7 +17,7 @@ async function getBlog(slug) {
 
 async function getAllBlogs() {
   try {
-    const res = await fetch(`/api/blogs`, { next: { revalidate: 60 } });
+    const res = await fetch(`${BACKEND_URL}/api/blogs`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     return res.json();
   } catch {

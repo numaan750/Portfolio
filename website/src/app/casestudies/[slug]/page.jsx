@@ -6,8 +6,10 @@ import RichText from "@/components/ui/RichText";
 // import ReviewForm from '@/components/caseStudy/ReviewForm';
 
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+
 async function getCaseStudy(slug) {
-  const res = await fetch(`/api/casestudies/${encodeURIComponent(slug)}`, {
+  const res = await fetch(`${BACKEND_URL}/api/casestudies/${encodeURIComponent(slug)}`, {
     next: { revalidate: 60 },
   });
   if (!res.ok) return null;
