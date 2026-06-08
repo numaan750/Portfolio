@@ -16,6 +16,7 @@ import {
   Underline,
   Undo2,
   Video,
+  X,
 } from 'lucide-react';
 import { uploadImage } from '@/lib/uploadImage';
 
@@ -35,9 +36,10 @@ interface ToolbarButtonProps {
   label: string;
   children: React.ReactNode;
   onClick: () => void;
+  isActive?: boolean;
 }
 
-function ToolbarButton({ label, children, onClick }: ToolbarButtonProps) {
+function ToolbarButton({ label, children, onClick, isActive }: ToolbarButtonProps) {
   return (
     <button
       type="button"
@@ -45,7 +47,7 @@ function ToolbarButton({ label, children, onClick }: ToolbarButtonProps) {
       aria-label={label}
       onMouseDown={(event) => event.preventDefault()}
       onClick={onClick}
-      className="rich-editor-button"
+      className={`rich-editor-button ${isActive ? 'rich-editor-button-active' : ''}`}
     >
       {children}
     </button>
@@ -71,6 +73,21 @@ export default function RichTextEditor({
   const savedRangeRef = useRef<Range | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
+  // Synchronization states for toolbar options
+  const [blockType, setBlockType] = useState('p');
+  const [fontFamily, setFontFamily] = useState('Arial');
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isUnderline, setIsUnderline] = useState(false);
+  const [isBulletList, setIsBulletList] = useState(false);
+  const [isOrderedList, setIsOrderedList] = useState(false);
+
+  // Link modal states
+  const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
+  const [linkUrl, setLinkUrl] = useState('');
+  const [linkText, setLinkText] = useState('');
+  const [linkRel, setLinkRel] = useState<'dofollow' | 'nofollow'>('dofollow');
+
   useEffect(() => {
     const editor = editorRef.current;
     if (!editor) return;
@@ -93,8 +110,57 @@ export default function RichTextEditor({
     const range = selection.getRangeAt(0);
     if (editor.contains(range.commonAncestorContainer)) {
       savedRangeRef.current = range.cloneRange();
+
+      try {
+        // formatBlock
+        let block = document.queryCommandValue('formatBlock') || 'p';
+        if (block) {
+          block = block.toLowerCase().replace(/<|>/g, '');
+        }
+        if (['p', 'h1', 'h2', 'h3', 'h4', 'h5'].includes(block)) {
+          setBlockType(block);
+        } else {
+          setBlockType('p');
+        }
+
+        // fontName
+        let font = document.queryCommandValue('fontName') || 'Arial';
+        if (font) {
+          font = font.replace(/['"]/g, '');
+        }
+        const supportedFonts = ['Arial', 'Georgia', 'Courier New', 'Times New Roman'];
+        const matchedFont = supportedFonts.find(f => f.toLowerCase() === font.toLowerCase()) || 'Arial';
+        setFontFamily(matchedFont);
+
+        // Styling state
+        setIsBold(document.queryCommandState('bold'));
+        setIsItalic(document.queryCommandState('italic'));
+        setIsUnderline(document.queryCommandState('underline'));
+        setIsBulletList(document.queryCommandState('insertUnorderedList'));
+        setIsOrderedList(document.queryCommandState('insertOrderedList'));
+      } catch (e) {
+        // Silently catch command status issues
+      }
     }
   };
+
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      const selection = window.getSelection();
+      const editor = editorRef.current;
+      if (!selection || !editor || selection.rangeCount === 0) return;
+
+      const range = selection.getRangeAt(0);
+      if (editor.contains(range.commonAncestorContainer)) {
+        saveSelection();
+      }
+    };
+
+    document.addEventListener('selectionchange', handleSelectionChange);
+    return () => {
+      document.removeEventListener('selectionchange', handleSelectionChange);
+    };
+  }, []);
 
   const restoreSelection = () => {
     const selection = window.getSelection();
@@ -126,13 +192,70 @@ export default function RichTextEditor({
 
   const addLink = () => {
     saveSelection();
-    const url = window.prompt('Enter the link URL');
-    if (!url) return;
 
-    const normalizedUrl = /^https?:\/\//i.test(url) || /^mailto:/i.test(url)
-      ? url
-      : `https://${url}`;
-    runCommand('createLink', normalizedUrl);
+    let selectedText = '';
+    let urlPrefill = '';
+    let relPrefill: 'dofollow' | 'nofollow' = 'dofollow';
+
+    const selection = window.getSelection();
+    const editor = editorRef.current;
+    if (selection && selection.rangeCount > 0 && editor) {
+      const range = selection.getRangeAt(0);
+      if (editor.contains(range.commonAncestorContainer)) {
+        selectedText = selection.toString();
+
+        let parent: HTMLElement | null = range.commonAncestorContainer as HTMLElement;
+        if (parent.nodeType === Node.TEXT_NODE) {
+          parent = parent.parentElement;
+        }
+
+        const anchor = parent?.closest('a');
+        if (anchor) {
+          urlPrefill = anchor.getAttribute('href') || '';
+          const rel = anchor.getAttribute('rel');
+          if (rel === 'nofollow') {
+            relPrefill = 'nofollow';
+          }
+          if (!selectedText) {
+            selectedText = anchor.textContent || '';
+          }
+
+          // Expand selection to include the whole anchor tag for editing
+          const newRange = document.createRange();
+          newRange.selectNode(anchor);
+          selection.removeAllRanges();
+          selection.addRange(newRange);
+          savedRangeRef.current = newRange.cloneRange();
+        }
+      }
+    }
+
+    setLinkText(selectedText);
+    setLinkUrl(urlPrefill);
+    setLinkRel(relPrefill);
+    setIsLinkModalOpen(true);
+  };
+
+  const handleInsertLink = () => {
+    if (!linkUrl) {
+      setIsLinkModalOpen(false);
+      return;
+    }
+
+    const normalizedUrl = /^https?:\/\//i.test(linkUrl) || /^mailto:/i.test(linkUrl)
+      ? linkUrl
+      : `https://${linkUrl}`;
+
+    const relAttr = linkRel === 'nofollow' ? 'nofollow' : 'dofollow';
+
+    // Construct HTML for the anchor
+    const linkHtml = `<a href="${normalizedUrl}" rel="${relAttr}" target="_blank">${linkText || normalizedUrl}</a>`;
+
+    setIsLinkModalOpen(false);
+
+    editorRef.current?.focus();
+    restoreSelection();
+    insertHtml(linkHtml);
   };
 
   const insertHtml = (html: string) => {
@@ -195,9 +318,13 @@ export default function RichTextEditor({
       <div className="rich-editor-toolbar">
         <select
           aria-label="Text style"
-          defaultValue="p"
+          value={blockType}
           onMouseDown={(event) => event.stopPropagation()}
-          onChange={(event) => runCommand('formatBlock', event.target.value)}
+          onChange={(event) => {
+            const val = event.target.value;
+            setBlockType(val);
+            runCommand('formatBlock', val);
+          }}
           className="rich-editor-select"
         >
           <option value="p">Paragraph</option>
@@ -210,8 +337,13 @@ export default function RichTextEditor({
 
         <select
           aria-label="Font family"
-          defaultValue="Arial"
-          onChange={(event) => runCommand('fontName', event.target.value)}
+          value={fontFamily}
+          onMouseDown={(event) => event.stopPropagation()}
+          onChange={(event) => {
+            const val = event.target.value;
+            setFontFamily(val);
+            runCommand('fontName', val);
+          }}
           className="rich-editor-select"
         >
           <option value="Arial">Arial</option>
@@ -221,15 +353,15 @@ export default function RichTextEditor({
         </select>
 
         <div className="rich-editor-separator" />
-        <ToolbarButton label="Bold" onClick={() => runCommand('bold')}><Bold size={16} /></ToolbarButton>
+        <ToolbarButton label="Bold" onClick={() => runCommand('bold')} isActive={isBold}><Bold size={16} /></ToolbarButton>
         <ToolbarButton label="Light weight" onClick={() => applyWeight('300')}><span className="text-xs font-light">Light</span></ToolbarButton>
         <ToolbarButton label="Normal weight" onClick={() => applyWeight('400')}><span className="text-xs">Normal</span></ToolbarButton>
-        <ToolbarButton label="Italic" onClick={() => runCommand('italic')}><Italic size={16} /></ToolbarButton>
-        <ToolbarButton label="Underline" onClick={() => runCommand('underline')}><Underline size={16} /></ToolbarButton>
+        <ToolbarButton label="Italic" onClick={() => runCommand('italic')} isActive={isItalic}><Italic size={16} /></ToolbarButton>
+        <ToolbarButton label="Underline" onClick={() => runCommand('underline')} isActive={isUnderline}><Underline size={16} /></ToolbarButton>
 
         <div className="rich-editor-separator" />
-        <ToolbarButton label="Bullet list" onClick={() => runCommand('insertUnorderedList')}><List size={17} /></ToolbarButton>
-        <ToolbarButton label="Numbered list" onClick={() => runCommand('insertOrderedList')}><ListOrdered size={17} /></ToolbarButton>
+        <ToolbarButton label="Bullet list" onClick={() => runCommand('insertUnorderedList')} isActive={isBulletList}><List size={17} /></ToolbarButton>
+        <ToolbarButton label="Numbered list" onClick={() => runCommand('insertOrderedList')} isActive={isOrderedList}><ListOrdered size={17} /></ToolbarButton>
         <ToolbarButton label="Align left" onClick={() => runCommand('justifyLeft')}><AlignLeft size={17} /></ToolbarButton>
         <ToolbarButton label="Align center" onClick={() => runCommand('justifyCenter')}><AlignCenter size={17} /></ToolbarButton>
         <ToolbarButton label="Align right" onClick={() => runCommand('justifyRight')}><AlignRight size={17} /></ToolbarButton>
@@ -277,6 +409,99 @@ export default function RichTextEditor({
         className="rich-editor-content"
         style={{ minHeight }}
       />
+
+      {/* Modern custom SEO Link Insertion Modal */}
+      {isLinkModalOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="glass-panel w-full max-w-md rounded-2xl overflow-hidden shadow-2xl animate-fade-in relative">
+            <button
+              type="button"
+              onClick={() => setIsLinkModalOpen(false)}
+              className="absolute top-4 right-4 p-1 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition"
+              aria-label="Close modal"
+            >
+              <X size={18} />
+            </button>
+            
+            <div className="p-6 space-y-5">
+              <div>
+                <h3 className="text-lg font-semibold text-white">Insert/Edit Link</h3>
+                <p className="text-xs text-zinc-400 mt-1">Add links with search engine relations (dofollow or nofollow).</p>
+              </div>
+
+              <div className="space-y-1">
+                <label htmlFor="link-url-input" className="text-xs text-zinc-300 block font-medium">Link URL</label>
+                <input
+                  id="link-url-input"
+                  type="text"
+                  placeholder="https://example.com"
+                  value={linkUrl}
+                  onChange={(e) => setLinkUrl(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg text-sm glass-input text-white font-sans outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+                  autoFocus
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label htmlFor="link-text-input" className="text-xs text-zinc-300 block font-medium">Link Text</label>
+                <input
+                  id="link-text-input"
+                  type="text"
+                  placeholder="Text to display"
+                  value={linkText}
+                  onChange={(e) => setLinkText(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg text-sm glass-input text-white font-sans outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-xs text-zinc-300 block font-medium">Search Engine Relation (SEO)</span>
+                <div className="flex gap-6">
+                  <label className="flex items-center gap-2 cursor-pointer text-sm text-zinc-300 hover:text-white select-none">
+                    <input
+                      type="radio"
+                      name="link-rel"
+                      value="dofollow"
+                      checked={linkRel === 'dofollow'}
+                      onChange={() => setLinkRel('dofollow')}
+                      className="accent-violet-500 w-4 h-4 cursor-pointer"
+                    />
+                    Do-follow
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer text-sm text-zinc-300 hover:text-white select-none">
+                    <input
+                      type="radio"
+                      name="link-rel"
+                      value="nofollow"
+                      checked={linkRel === 'nofollow'}
+                      onChange={() => setLinkRel('nofollow')}
+                      className="accent-violet-500 w-4 h-4 cursor-pointer"
+                    />
+                    No-follow
+                  </label>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsLinkModalOpen(false)}
+                  className="px-4 py-2 text-sm rounded-lg hover:bg-white/5 transition text-zinc-400 hover:text-white font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleInsertLink}
+                  className="px-5 py-2 text-sm rounded-lg gradient-bg text-white font-medium hover:opacity-90 transition shadow-lg shadow-violet-500/20"
+                >
+                  Insert Link
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

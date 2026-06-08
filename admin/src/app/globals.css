@@ -79,6 +79,12 @@ body {
   cursor: pointer;
 }
 
+.rich-editor-button-active {
+  background: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+  color: #fff !important;
+}
+
 .rich-editor-button:hover,
 .rich-editor-select:hover {
   border-color: rgba(167, 139, 250, 0.65);
