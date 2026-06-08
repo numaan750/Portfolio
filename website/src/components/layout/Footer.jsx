@@ -17,6 +17,9 @@ export default function Footer() {
     { label: "Projects", href: "/projects", type: "page" },
     { label: "Blog", href: "/blog", type: "page" },
     { label: "Contact", href: "/contact", type: "page" },
+    { label: "FAQ", href: "/faq", type: "page" },
+    { label: "Terms & Conditions", href: "/terms-and-conditions", type: "page" },
+    { label: "Privacy Policy", href: "/privacy-policy", type: "page" },
   ];
 
   const handleFooterNav = (href) => {
