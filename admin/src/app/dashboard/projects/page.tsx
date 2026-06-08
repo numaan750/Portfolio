@@ -23,7 +23,7 @@ export default function ProjectsList() {
 
   const fetchProjects = async () => {
     try {
-      const { data } = await api.get('/admin/projects');
+      const { data } = await api.get('/api/admin/projects');
       setProjects(data);
     } catch (err) {
       console.error('Error fetching projects:', err);
@@ -39,7 +39,7 @@ export default function ProjectsList() {
   const handleDelete = async (slug: string) => {
     if (!confirm('Are you sure you want to delete this project?')) return;
     try {
-      await api.delete(`/admin/projects/${slug}`);
+      await api.delete(`/api/admin/projects/${slug}`);
       setProjects(projects.filter(project => project.slug !== slug));
     } catch (err) {
       console.error('Error deleting project:', err);

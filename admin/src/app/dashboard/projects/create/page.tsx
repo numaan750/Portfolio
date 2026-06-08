@@ -52,7 +52,7 @@ export default function CreateProject() {
       .filter(Boolean);
 
     try {
-      await api.post('/admin/projects', {
+      await api.post('/api/admin/projects', {
         title,
         slug,
         description,

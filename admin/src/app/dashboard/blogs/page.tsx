@@ -20,8 +20,8 @@ export default function BlogsList() {
 
   const fetchBlogs = async () => {
     try {
-      // Admin endpoints read from /admin/blogs
-      const { data } = await api.get('/admin/blogs');
+      // Admin endpoints read from /api/admin/blogs
+      const { data } = await api.get('/api/admin/blogs');
       setBlogs(data);
     } catch (err) {
       console.error('Error fetching blogs:', err);
@@ -37,7 +37,7 @@ export default function BlogsList() {
   const handleDelete = async (slug: string) => {
     if (!confirm('Are you sure you want to delete this blog?')) return;
     try {
-      await api.delete(`/admin/blogs/${slug}`);
+      await api.delete(`/api/admin/blogs/${slug}`);
       setBlogs(blogs.filter(blog => blog.slug !== slug));
     } catch (err) {
       console.error('Error deleting blog:', err);

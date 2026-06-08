@@ -7,7 +7,7 @@ export async function GET(req: Request, context: { params: Promise<{ slug: strin
 
   const { slug } = await context.params;
 
-  const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
+  const authHeader = req.headers.get('authorization') || extractBearerFromCookie(req.headers.get('cookie') || '');
 
   const res = await fetch(`${BACKEND_URL}/admin/casestudies/${encodeURIComponent(slug)}`, {
     headers: {
@@ -26,7 +26,7 @@ export async function PUT(req: Request, context: { params: Promise<{ slug: strin
 
   const { slug } = await context.params;
 
-  const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
+  const authHeader = req.headers.get('authorization') || extractBearerFromCookie(req.headers.get('cookie') || '');
   const body = await req.json().catch(() => ({}));
 
   const res = await fetch(`${BACKEND_URL}/admin/casestudies/${encodeURIComponent(slug)}`, {
@@ -47,7 +47,7 @@ export async function DELETE(req: Request, context: { params: Promise<{ slug: st
 
   const { slug } = await context.params;
 
-  const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
+  const authHeader = req.headers.get('authorization') || extractBearerFromCookie(req.headers.get('cookie') || '');
 
   const res = await fetch(`${BACKEND_URL}/admin/casestudies/${encodeURIComponent(slug)}`, {
     method: 'DELETE',

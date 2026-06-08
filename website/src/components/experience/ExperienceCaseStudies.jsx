@@ -16,8 +16,7 @@ export default function ExperienceCaseStudies() {
   useEffect(() => {
     const fetchDbCaseStudies = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-        const res = await fetch(`${apiUrl}/api/casestudies`);
+        const res = await fetch('/api/casestudies');
         if (!res.ok) return;
         const dbCases = await res.json();
 

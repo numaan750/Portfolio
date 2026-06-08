@@ -42,7 +42,7 @@ export default function CreateCaseStudy() {
     setError('');
 
     try {
-      await api.post('/admin/casestudies', {
+      await api.post('/api/admin/casestudies', {
         title,
         slug,
         description,

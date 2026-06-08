@@ -5,8 +5,8 @@ const BACKEND_URL = process.env.BACKEND_URL;
 export async function GET(req: Request, context: { params: Promise<{ slug: string }> }) {
   if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
 
-    const { slug } = await context.params;
-  const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
+  const { slug } = await context.params;
+  const authHeader = req.headers.get('authorization') || extractBearerFromCookie(req.headers.get('cookie') || '');
 
   const res = await fetch(`${BACKEND_URL}/admin/blogs/${encodeURIComponent(slug)}`, {
     headers: {
@@ -23,9 +23,9 @@ export async function GET(req: Request, context: { params: Promise<{ slug: strin
 export async function PUT(req: Request, context: { params: Promise<{ slug: string }> }) {
   if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
 
-    const { slug } = await context.params;
+  const { slug } = await context.params;
 
-  const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
+  const authHeader = req.headers.get('authorization') || extractBearerFromCookie(req.headers.get('cookie') || '');
   const body = await req.json().catch(() => ({}));
 
   const res = await fetch(`${BACKEND_URL}/admin/blogs/${encodeURIComponent(slug)}`, {
@@ -45,7 +45,7 @@ export async function DELETE(req: Request, context: { params: Promise<{ slug: st
   if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
 
   const { slug } = await context.params;
-  const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
+  const authHeader = req.headers.get('authorization') || extractBearerFromCookie(req.headers.get('cookie') || '');
 
   const res = await fetch(`${BACKEND_URL}/admin/blogs/${encodeURIComponent(slug)}`, {
     method: 'DELETE',

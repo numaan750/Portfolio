@@ -13,9 +13,9 @@ export default function DashboardHome() {
     const fetchStats = async () => {
       try {
         const [blogsRes, projectsRes, caseStudiesRes] = await Promise.all([
-          api.get('/api/blogs'),
-          api.get('/api/projects'),
-          api.get('/api/casestudies'),
+          api.get('/api/admin/blogs'),
+          api.get('/api/admin/projects'),
+          api.get('/api/admin/casestudies'),
         ]);
         setStats({
           blogs: blogsRes.data.length || 0,

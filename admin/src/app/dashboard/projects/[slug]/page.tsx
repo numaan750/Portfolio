@@ -31,7 +31,7 @@ export default function EditProject() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const { data } = await api.get(`/admin/projects/${currentSlug}`);
+        const { data } = await api.get(`/api/admin/projects/${currentSlug}`);
         setTitle(data.title);
         setSlug(data.slug);
         setDescription(data.description || '');
@@ -68,7 +68,7 @@ export default function EditProject() {
       .filter(Boolean);
 
     try {
-      await api.put(`/admin/projects/${currentSlug}`, {
+      await api.put(`/api/admin/projects/${currentSlug}`, {
         title,
         slug,
         description,
@@ -92,7 +92,7 @@ export default function EditProject() {
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this project?')) return;
     try {
-      await api.delete(`/admin/projects/${currentSlug}`);
+      await api.delete(`/api/admin/projects/${currentSlug}`);
       router.push('/dashboard/projects');
     } catch (err) {
       console.error(err);

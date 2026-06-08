@@ -43,7 +43,7 @@ export default function CreateBlog() {
     setError('');
 
     try {
-      await api.post('/admin/blogs', { title, slug, content, author, imageUrl, imageAlt });
+      await api.post('/api/admin/blogs', { title, slug, content, author, imageUrl, imageAlt });
       router.push('/dashboard/blogs');
     } catch (err: any) {
       console.error(err);

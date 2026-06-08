@@ -27,9 +27,7 @@ export default function Projects({ showAll = false }) {
   useEffect(() => {
     const fetchDbProjects = async () => {
       try {
-        // Fetch projects from public API
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-        const res = await fetch(`${apiUrl}/api/projects`);
+        const res = await fetch('/api/projects');
         if (!res.ok) return;
         const dbProjects = await res.json();
 

@@ -27,7 +27,7 @@ export default function EditCaseStudy() {
   useEffect(() => {
     const fetchCaseStudy = async () => {
       try {
-        const { data } = await api.get(`/admin/casestudies/${currentSlug}`);
+        const { data } = await api.get(`/api/admin/casestudies/${currentSlug}`);
         setTitle(data.title);
         setSlug(data.slug);
         setDescription(data.description || '');
@@ -54,7 +54,7 @@ export default function EditCaseStudy() {
     setError('');
 
     try {
-      await api.put(`/admin/casestudies/${currentSlug}`, {
+      await api.put(`/api/admin/casestudies/${currentSlug}`, {
         title,
         slug,
         description,
@@ -74,7 +74,7 @@ export default function EditCaseStudy() {
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this case study?')) return;
     try {
-      await api.delete(`/admin/casestudies/${currentSlug}`);
+      await api.delete(`/api/admin/casestudies/${currentSlug}`);
       router.push('/dashboard/casestudies');
     } catch (err) {
       console.error(err);

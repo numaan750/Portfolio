@@ -102,7 +102,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const fetchProjects = async () => {
     setProjectsLoading(true);
     try {
-      const { data } = await api.get('/admin/projects');
+      const { data } = await api.get('/api/admin/projects');
       setProjects(data);
     } finally {
       setProjectsLoading(false);
@@ -110,22 +110,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const getProject = async (slug: string): Promise<Project> => {
-    const { data } = await api.get(`/admin/projects/${slug}`);
+    const { data } = await api.get(`/api/admin/projects/${slug}`);
     return data;
   };
 
   const createProject = async (payload: Partial<Project>) => {
-    await api.post('/admin/projects', payload);
+    await api.post('/api/admin/projects', payload);
     await fetchProjects();
   };
 
   const updateProject = async (slug: string, payload: Partial<Project>) => {
-    await api.put(`/admin/projects/${slug}`, payload);
+    await api.put(`/api/admin/projects/${slug}`, payload);
     await fetchProjects();
   };
 
   const deleteProject = async (slug: string) => {
-    await api.delete(`/admin/projects/${slug}`);
+    await api.delete(`/api/admin/projects/${slug}`);
     setProjects((prev) => prev.filter((p) => p.slug !== slug));
   };
 
@@ -133,7 +133,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const fetchCaseStudies = async () => {
     setCaseStudiesLoading(true);
     try {
-      const { data } = await api.get('/admin/casestudies');
+      const { data } = await api.get('/api/admin/casestudies');
       setCaseStudies(data);
     } finally {
       setCaseStudiesLoading(false);
@@ -141,22 +141,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const getCaseStudy = async (slug: string): Promise<CaseStudy> => {
-    const { data } = await api.get(`/admin/casestudies/${slug}`);
+    const { data } = await api.get(`/api/admin/casestudies/${slug}`);
     return data;
   };
 
   const createCaseStudy = async (payload: Partial<CaseStudy>) => {
-    await api.post('/admin/casestudies', payload);
+    await api.post('/api/admin/casestudies', payload);
     await fetchCaseStudies();
   };
 
   const updateCaseStudy = async (slug: string, payload: Partial<CaseStudy>) => {
-    await api.put(`/admin/casestudies/${slug}`, payload);
+    await api.put(`/api/admin/casestudies/${slug}`, payload);
     await fetchCaseStudies();
   };
 
   const deleteCaseStudy = async (slug: string) => {
-    await api.delete(`/admin/casestudies/${slug}`);
+    await api.delete(`/api/admin/casestudies/${slug}`);
     setCaseStudies((prev) => prev.filter((cs) => cs.slug !== slug));
   };
 

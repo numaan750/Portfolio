@@ -21,7 +21,7 @@ export default function CaseStudiesList() {
 
   const fetchCaseStudies = async () => {
     try {
-      const { data } = await api.get('/admin/casestudies');
+      const { data } = await api.get('/api/admin/casestudies');
       setCaseStudies(data);
     } catch (err) {
       console.error('Error fetching case studies:', err);
@@ -37,7 +37,7 @@ export default function CaseStudiesList() {
   const handleDelete = async (slug: string) => {
     if (!confirm('Are you sure you want to delete this case study?')) return;
     try {
-      await api.delete(`/admin/casestudies/${slug}`);
+      await api.delete(`/api/admin/casestudies/${slug}`);
       setCaseStudies(caseStudies.filter(cs => cs.slug !== slug));
     } catch (err) {
       console.error('Error deleting case study:', err);

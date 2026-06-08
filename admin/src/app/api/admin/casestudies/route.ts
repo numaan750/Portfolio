@@ -5,7 +5,7 @@ const BACKEND_URL = process.env.BACKEND_URL;
 export async function GET(req: Request) {
   if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
 
-  const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
+  const authHeader = req.headers.get('authorization') || extractBearerFromCookie(req.headers.get('cookie') || '');
 
   const res = await fetch(`${BACKEND_URL}/admin/casestudies`, {
     headers: {
@@ -22,7 +22,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
 
-  const authHeader = extractBearerFromCookie(req.headers.get('cookie') || '');
+  const authHeader = req.headers.get('authorization') || extractBearerFromCookie(req.headers.get('cookie') || '');
   const body = await req.json().catch(() => ({}));
 
   const res = await fetch(`${BACKEND_URL}/admin/casestudies`, {

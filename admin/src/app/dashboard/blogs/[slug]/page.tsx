@@ -27,7 +27,7 @@ export default function EditBlog() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const { data } = await api.get(`/admin/blogs/${currentSlug}`);
+        const { data } = await api.get(`/api/admin/blogs/${currentSlug}`);
         setTitle(data.title);
         setSlug(data.slug);
         setContent(data.content);
@@ -54,7 +54,7 @@ export default function EditBlog() {
     setError('');
 
     try {
-      await api.put(`/admin/blogs/${currentSlug}`, {
+      await api.put(`/api/admin/blogs/${currentSlug}`, {
         title,
         slug,
         content,
@@ -74,7 +74,7 @@ export default function EditBlog() {
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this blog post?')) return;
     try {
-      await api.delete(`/admin/blogs/${currentSlug}`);
+      await api.delete(`/api/admin/blogs/${currentSlug}`);
       router.push('/dashboard/blogs');
     } catch (err) {
       console.error(err);
