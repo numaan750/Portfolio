@@ -13,7 +13,6 @@ export default function EditCaseStudy() {
   const router = useRouter();
   const params = useParams();
   const currentSlug = params.slug as string;
-
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
   const [description, setDescription] = useState('');
