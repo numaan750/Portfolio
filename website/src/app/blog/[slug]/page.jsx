@@ -15,6 +15,43 @@ async function getBlog(slug) {
   return res.json();
 }
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const blog = await getBlog(slug);
+  if (!blog) {
+    return {
+      title: "Blog Not Found | Nexcode",
+    };
+  }
+
+  // Strip HTML tag helper for metaDescription fallback
+  const plainTextDescription = blog.content
+    ? blog.content.replace(/<[^>]*>/g, "").substring(0, 160).trim()
+    : "";
+
+  const finalTitle = blog.metaTitle || `${blog.title} | Nexcode`;
+  const finalDesc = blog.metaDescription || plainTextDescription || "Nexcode blog post detailing custom development and AI integrations.";
+  const finalImage = blog.metaImage || blog.imageUrl || "";
+
+  return {
+    title: finalTitle,
+    description: finalDesc,
+    openGraph: {
+      title: finalTitle,
+      description: finalDesc,
+      type: "article",
+      images: finalImage ? [{ url: finalImage, alt: blog.metaImageAlt || blog.title }] : [],
+
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: finalTitle,
+      description: finalDesc,
+      images: finalImage ? [finalImage] : [],
+    },
+  };
+}
+
 async function getAllBlogs() {
   try {
     const res = await fetch(`${BACKEND_URL}/api/blogs`, { next: { revalidate: 60 } });

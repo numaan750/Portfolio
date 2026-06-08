@@ -17,6 +17,10 @@ export default function CreateCaseStudy() {
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [imageAlt, setImageAlt] = useState('');
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [metaImage, setMetaImage] = useState('');
+  const [metaImageAlt, setMetaImageAlt] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -49,6 +53,10 @@ export default function CreateCaseStudy() {
         content,
         imageUrl,
         imageAlt,
+        metaTitle,
+        metaDescription,
+        metaImage,
+        metaImageAlt,
       });
       router.push('/dashboard/casestudies');
     } catch (err: any) {
@@ -141,6 +149,52 @@ export default function CreateCaseStudy() {
             placeholder="Describe the architectural design, bottlenecks encountered, optimizations, and results..."
             minHeight={360}
           />
+        </div>
+
+        {/* SEO Metadata Section */}
+        <div className="border-t border-zinc-800/80 pt-6 space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold text-white">SEO / Metadata Settings</h3>
+            <p className="text-xs text-zinc-400 mt-1">Configure meta tags for Google Search and social previews</p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <label className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
+                Meta Title
+              </label>
+              <input
+                type="text"
+                value={metaTitle}
+                onChange={(e) => setMetaTitle(e.target.value)}
+                placeholder="SEO Title (Google Search)"
+                className="w-full rounded-lg glass-input p-3 text-sm"
+              />
+            </div>
+
+            <div>
+              <FeaturedImageUpload
+                imageUrl={metaImage}
+                imageAlt={metaImageAlt}
+                onImageUrlChange={setMetaImage}
+                onImageAltChange={setMetaImageAlt}
+                label="SEO Meta / OpenGraph Image"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
+              Meta Description
+            </label>
+            <textarea
+              value={metaDescription}
+              onChange={(e) => setMetaDescription(e.target.value)}
+              placeholder="Brief description summarizing the case study (approx. 150-160 characters)..."
+              rows={3}
+              className="w-full rounded-lg glass-input p-3 text-sm bg-zinc-900 border border-zinc-800 focus:outline-none focus:border-purple-500 text-white"
+            />
+          </div>
         </div>
 
         <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800/80">

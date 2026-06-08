@@ -16,6 +16,42 @@ async function getCaseStudy(slug) {
   return res.json();
 }
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const casestudy = await getCaseStudy(slug);
+  if (!casestudy) {
+    return {
+      title: "Case Study Not Found | Nexcode",
+    };
+  }
+
+  // Strip HTML tag helper for metaDescription fallback
+  const plainTextDescription = casestudy.description
+    ? casestudy.description.replace(/<[^>]*>/g, "").substring(0, 160).trim()
+    : "";
+
+  const finalTitle = casestudy.metaTitle || `${casestudy.title} | Nexcode Case Study`;
+  const finalDesc = casestudy.metaDescription || plainTextDescription || "Custom full-stack web application development case study by Nexcode.";
+  const finalImage = casestudy.metaImage || casestudy.imageUrl || "";
+
+  return {
+    title: finalTitle,
+    description: finalDesc,
+    openGraph: {
+      title: finalTitle,
+      description: finalDesc,
+      type: "article",
+      images: finalImage ? [{ url: finalImage, alt: casestudy.metaImageAlt || casestudy.title }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: finalTitle,
+      description: finalDesc,
+      images: finalImage ? [finalImage] : [],
+    },
+  };
+}
+
 export default async function CaseStudyDetailPage({ params }) {
   const { slug } = await params;
   const casestudy = await getCaseStudy(slug);

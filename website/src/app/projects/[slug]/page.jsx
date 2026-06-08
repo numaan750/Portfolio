@@ -17,6 +17,42 @@ async function getProject(slug) {
   return res.json();
 }
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const project = await getProject(slug);
+  if (!project) {
+    return {
+      title: "Project Not Found | Nexcode",
+    };
+  }
+
+  // Strip HTML tag helper for metaDescription fallback
+  const plainTextDescription = project.description
+    ? project.description.replace(/<[^>]*>/g, "").substring(0, 160).trim()
+    : "";
+
+  const finalTitle = project.metaTitle || `${project.title} | Nexcode Project`;
+  const finalDesc = project.metaDescription || plainTextDescription || "Custom full-stack web application showcase built by Nexcode.";
+  const finalImage = project.metaImage || project.imageUrl || "";
+
+  return {
+    title: finalTitle,
+    description: finalDesc,
+    openGraph: {
+      title: finalTitle,
+      description: finalDesc,
+      type: "website",
+      images: finalImage ? [{ url: finalImage, alt: project.metaImageAlt || project.title }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: finalTitle,
+      description: finalDesc,
+      images: finalImage ? [finalImage] : [],
+    },
+  };
+}
+
 export default async function ProjectDetailPage({ params }) {
   const { slug } = await params;
   const project = await getProject(slug);

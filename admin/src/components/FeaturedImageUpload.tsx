@@ -50,7 +50,7 @@ export default function FeaturedImageUpload({
       </label>
 
       {imageUrl && (
-        <div className="relative w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
+        <div className="relative w-48 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-md">
           <div className="relative w-full aspect-[16/9]">
             <img
               src={imageUrl}
@@ -61,10 +61,10 @@ export default function FeaturedImageUpload({
             <button
               type="button"
               onClick={() => onImageUrlChange('')}
-              className="absolute right-3 top-3 rounded-lg border border-red-500/30 bg-zinc-950/90 p-2 text-red-400 hover:text-red-300"
+              className="absolute right-1.5 top-1.5 rounded-lg border border-red-500/30 bg-zinc-950/90 p-1.5 text-red-400 hover:text-red-300"
               title="Remove image"
             >
-              <Trash2 size={16} />
+              <Trash2 size={14} />
             </button>
           </div>
         </div>

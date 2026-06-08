@@ -7,6 +7,10 @@ const caseStudySchema = new mongoose.Schema({
   content: { type: String, required: true },
   imageUrl: { type: String, default: '' },
   imageAlt: { type: String, default: '' },
+  metaTitle: { type: String, default: '' },
+  metaDescription: { type: String, default: '' },
+  metaImage: { type: String, default: '' },
+  metaImageAlt: { type: String, default: '' },
   slug: { type: String, required: true, unique: true, lowercase: true, trim: true },
   // Add any additional fields you need, e.g., images, tags, etc.
 }, { timestamps: true });

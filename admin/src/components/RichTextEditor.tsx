@@ -177,6 +177,107 @@ export default function RichTextEditor({
     emitChange();
   };
 
+  const formatBlocks = (newTag: string) => {
+    editorRef.current?.focus();
+    restoreSelection();
+
+    const selection = window.getSelection();
+    const editor = editorRef.current;
+    if (!selection || !editor || selection.rangeCount === 0) return;
+
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return;
+
+    // Find all potential block elements inside the editor
+    const allBlocks = Array.from(editor.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, blockquote'));
+
+    let selectedBlocks: HTMLElement[] = [];
+    if (range.collapsed) {
+      // If range is collapsed, find the single block containing the cursor
+      let parent: Node | null = range.startContainer;
+      while (parent && parent !== editor) {
+        if (
+          parent.nodeType === Node.ELEMENT_NODE &&
+          ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'DIV', 'BLOCKQUOTE'].includes((parent as Element).tagName)
+        ) {
+          selectedBlocks.push(parent as HTMLElement);
+          break;
+        }
+        parent = parent.parentNode;
+      }
+      if (selectedBlocks.length === 0) {
+        document.execCommand('formatBlock', false, newTag);
+        saveSelection();
+        emitChange();
+        return;
+      }
+    } else {
+      // Filter to only those intersecting the range
+      selectedBlocks = allBlocks.filter((block) => range.intersectsNode(block)) as HTMLElement[];
+      // Filter out blocks that contain other selected blocks (so we only target leaf blocks)
+      selectedBlocks = selectedBlocks.filter(
+        (block) => !selectedBlocks.some((otherBlock) => otherBlock !== block && block.contains(otherBlock))
+      );
+    }
+
+    if (selectedBlocks.length === 0) {
+      document.execCommand('formatBlock', false, newTag);
+      saveSelection();
+      emitChange();
+      return;
+    }
+
+    let rangeStartContainer = range.startContainer;
+    const rangeStartOffset = range.startOffset;
+    let rangeEndContainer = range.endContainer;
+    const rangeEndOffset = range.endOffset;
+
+    const replacements = new Map<HTMLElement, HTMLElement>();
+
+    selectedBlocks.forEach((block) => {
+      if (block.tagName.toLowerCase() === newTag.toLowerCase()) {
+        replacements.set(block, block);
+        return;
+      }
+
+      const newBlock = document.createElement(newTag);
+      // Copy attributes
+      for (let i = 0; i < block.attributes.length; i++) {
+        const attr = block.attributes[i];
+        newBlock.setAttribute(attr.name, attr.value);
+      }
+      // Move children
+      while (block.firstChild) {
+        newBlock.appendChild(block.firstChild);
+      }
+      block.parentNode?.replaceChild(newBlock, block);
+      replacements.set(block, newBlock);
+    });
+
+    // Map container references if they were replaced
+    if (replacements.has(rangeStartContainer as HTMLElement)) {
+      rangeStartContainer = replacements.get(rangeStartContainer as HTMLElement)!;
+    }
+    if (replacements.has(rangeEndContainer as HTMLElement)) {
+      rangeEndContainer = replacements.get(rangeEndContainer as HTMLElement)!;
+    }
+
+    try {
+      const newRange = document.createRange();
+      newRange.setStart(rangeStartContainer, rangeStartOffset);
+      newRange.setEnd(rangeEndContainer, rangeEndOffset);
+      selection.removeAllRanges();
+      selection.addRange(newRange);
+      savedRangeRef.current = newRange.cloneRange();
+    } catch (e) {
+      console.error('Failed to restore range after block formatting:', e);
+      editorRef.current?.focus();
+    }
+
+    setBlockType(newTag);
+    emitChange();
+  };
+
   const applyWeight = (weight: '300' | '400') => {
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return;
@@ -322,8 +423,7 @@ export default function RichTextEditor({
           onMouseDown={(event) => event.stopPropagation()}
           onChange={(event) => {
             const val = event.target.value;
-            setBlockType(val);
-            runCommand('formatBlock', val);
+            formatBlocks(val);
           }}
           className="rich-editor-select"
         >

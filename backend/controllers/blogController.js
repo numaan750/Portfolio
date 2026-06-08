@@ -4,8 +4,8 @@ const Blog = require('../models/Blog');
 // Create a new blog (admin)
 exports.createBlog = async (req, res) => {
   try {
-    const { title, slug, content, author, imageUrl, imageAlt } = req.body;
-    const blog = await Blog.create({ title, slug, content, author, imageUrl, imageAlt });
+    const { title, slug, content, author, imageUrl, imageAlt, metaTitle, metaDescription, metaImage, metaImageAlt } = req.body;
+    const blog = await Blog.create({ title, slug, content, author, imageUrl, imageAlt, metaTitle, metaDescription, metaImage, metaImageAlt });
     res.status(201).json(blog);
   } catch (err) {
     console.error('Create blog error:', err);
