@@ -1,4 +1,15 @@
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2;
+
+if (process.env.CLOUDINARY_URL) {
+  cloudinary.config(true);
+} else {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+}
 
 const getBucket = () =>
   new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
@@ -9,22 +20,25 @@ exports.uploadImage = async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'Please select an image file.' });
 
-    const bucket = getBucket();
-    const uploadStream = bucket.openUploadStream(req.file.originalname, {
-      metadata: {
-        contentType: req.file.mimetype,
-        uploadedBy: req.user?.id || null,
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'portfolio',
       },
-    });
-
-    uploadStream.on('error', next);
-    uploadStream.on('finish', () => {
-      const baseUrl = `${req.protocol}://${req.get('host')}`;
-      res.status(201).json({
-        url: `${baseUrl}/api/uploads/${uploadStream.id}`,
-        id: uploadStream.id,
-      });
-    });
+      (error, result) => {
+        if (error) {
+          console.error('Cloudinary upload error:', error);
+          return res.status(500).json({ error: 'Cloudinary upload failed: ' + error.message });
+        }
+        
+        // Optimize the secure URL by inserting f_auto,q_auto
+        const optimizedUrl = result.secure_url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+        
+        res.status(201).json({
+          url: optimizedUrl,
+          id: result.public_id,
+        });
+      }
+    );
 
     uploadStream.end(req.file.buffer);
   } catch (error) {
