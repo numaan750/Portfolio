@@ -36,7 +36,7 @@ export default function SEOPage() {
               {/* Right — image fills full height */}
               <div className="relative min-h-[280px] overflow-hidden rounded-[2rem] border border-white/10 bg-[#0c1322] shadow-[0_30px_90px_rgba(0,0,0,0.2)]">
                 <img
-                  src="/home-images/services-images/seo/Help-Your-Website-Rank-Higher-and-Perform-Better.avif"
+                  src="/home-images/services-images/seo/Help-Your-Website-Rank-Higher-and-Perform-Better.png"
                   alt="SEO and Performance"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
@@ -142,7 +142,7 @@ export default function SEOPage() {
               {/* Right — image fills full height */}
               <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1325] shadow-[0_30px_90px_rgba(0,0,0,0.2)]">
                 <img
-                  src="/home-images/services-images/seo/A-Clear-Process-for-Long-Term-SEO-Growth.avif"
+                  src="/home-images/services-images/seo/A-Clear-Process-for-Long-Term-SEO-Growth.png"
                   alt="SEO work"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
