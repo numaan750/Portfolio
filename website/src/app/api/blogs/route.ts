@@ -9,7 +9,7 @@ export async function GET() {
 
   const res = await fetch(`${BACKEND_URL}/api/blogs`, {
     headers: { 'Content-Type': 'application/json' },
-    cache: 'no-store',
+    next: { revalidate: 60 },
   });
 
   if (!res.ok) {

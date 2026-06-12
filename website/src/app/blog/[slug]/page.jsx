@@ -2,6 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionWrapper from "@/components/ui/SectionWrapper";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { FiCalendar, FiUser, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import RichText from "@/components/ui/RichText";
 
@@ -116,12 +117,13 @@ export default async function BlogDetailPage({ params }) {
 
               {/* Hero image */}
               {blog.imageUrl && (
-                <div className="overflow-hidden rounded-2xl border border-white/5 shadow-2xl shadow-black/60">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                <div className="overflow-hidden rounded-2xl border border-white/5 shadow-2xl shadow-black/60 max-h-[480px]">
+                  <OptimizedImage
                     src={blog.imageUrl}
                     alt={blog.imageAlt || blog.title}
-                    className="max-h-[480px] w-full object-cover"
+                    width={1200}
+                    height={480}
+                    className="w-full h-full max-h-[480px]"
                   />
                 </div>
               )}

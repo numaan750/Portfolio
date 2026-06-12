@@ -8,9 +8,10 @@ const uploadImage = require('../middleware/uploadImage');
 const { createBlog, getAllBlogs, getBlogBySlug, updateBlog, deleteBlog } = require('../controllers/blogController');
 const { createProject, getAllProjects, getProjectBySlug, updateProject, deleteProject } = require('../controllers/projectController');
 const { createCaseStudy, getAllCaseStudies, getCaseStudyBySlug, updateCaseStudy, deleteCaseStudy } = require('../controllers/caseStudyController');
-const { uploadImage: saveUploadedImage } = require('../controllers/uploadController');
+const { uploadImage: saveUploadedImage, validateImage } = require('../controllers/uploadController');
 
 router.post('/uploads/images', adminAuth, uploadImage.single('image'), saveUploadedImage);
+router.post('/uploads/validate', adminAuth, validateImage);
 
 // Blog CRUD (admin protected)
 router.post('/blogs', adminAuth, createBlog);

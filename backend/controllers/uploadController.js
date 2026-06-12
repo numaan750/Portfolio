@@ -23,6 +23,9 @@ exports.uploadImage = async (req, res, next) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: 'portfolio',
+        resource_type: 'auto',
+        // Ensure permanent storage
+        access_mode: 'token',
       },
       (error, result) => {
         if (error) {
@@ -30,12 +33,15 @@ exports.uploadImage = async (req, res, next) => {
           return res.status(500).json({ error: 'Cloudinary upload failed: ' + error.message });
         }
         
-        // Optimize the secure URL by inserting f_auto,q_auto
-        const optimizedUrl = result.secure_url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+        // Build permanent URL with optimization parameters
+        // Using secure_url with f_auto,q_auto for format and quality optimization
+        const optimizedUrl = result.secure_url.replace('/image/upload/', '/image/upload/f_auto,q_auto,c_limit,w_2000/');
         
         res.status(201).json({
           url: optimizedUrl,
-          id: result.public_id,
+          publicId: result.public_id,
+          secure_url: result.secure_url,
+          timestamp: result.created_at,
         });
       }
     );
@@ -45,6 +51,7 @@ exports.uploadImage = async (req, res, next) => {
     next(error);
   }
 };
+
 
 exports.getImage = async (req, res) => {
   try {
@@ -71,5 +78,53 @@ exports.getImage = async (req, res) => {
   } catch (error) {
     console.error('Get uploaded image error:', error);
     res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Validate Cloudinary image existence
+exports.validateImage = async (req, res) => {
+  try {
+    const { url, publicId } = req.body;
+    
+    if (!url && !publicId) {
+      return res.status(400).json({ error: 'URL or publicId required' });
+    }
+
+    // If publicId provided, check with Cloudinary
+    if (publicId) {
+      try {
+        const result = await cloudinary.api.resource(publicId);
+        return res.json({ 
+          valid: true, 
+          url: result.secure_url,
+          message: 'Image found in Cloudinary'
+        });
+      } catch (err) {
+        return res.json({ 
+          valid: false, 
+          message: 'Image not found in Cloudinary'
+        });
+      }
+    }
+
+    // If URL provided, attempt to fetch it
+    if (url) {
+      try {
+        const response = await fetch(url, { method: 'HEAD' });
+        return res.json({ 
+          valid: response.ok, 
+          status: response.status,
+          message: response.ok ? 'Image accessible' : 'Image not accessible'
+        });
+      } catch (err) {
+        return res.json({ 
+          valid: false, 
+          message: 'Image URL not accessible'
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Image validation error:', error);
+    res.status(500).json({ error: 'Validation error' });
   }
 };

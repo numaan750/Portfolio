@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { FiCalendar, FiClock, FiBookOpen } from "react-icons/fi";
 import RichText from "@/components/ui/RichText";
 // import ReviewForm from '@/components/caseStudy/ReviewForm';
@@ -94,11 +95,13 @@ export default async function CaseStudyDetailPage({ params }) {
         {/* ── FULL-BLEED HERO IMAGE ── */}
         <section className="relative w-full h-[55vh] min-h-[420px] overflow-hidden">
           {/* Image */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <OptimizedImage
             src={imageSrc}
             alt={casestudy.imageAlt || casestudy.title}
-            className="absolute inset-0 w-full h-full object-cover"
+            width={1600}
+            height={900}
+            className="w-full h-full"
+            priority
           />
 
           {/* Deep overlay gradient */}

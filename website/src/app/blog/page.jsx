@@ -5,6 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionWrapper from "@/components/ui/SectionWrapper";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { FiCalendar, FiUser, FiArrowRight } from "react-icons/fi";
 import { richTextToPlainText } from "@/components/ui/RichText";
 
@@ -59,14 +60,15 @@ export default function BlogListPage() {
                   className="group block overflow-hidden rounded-2xl border border-white/5 bg-[#0b1220]/60 hover:border-indigo-500/30 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-indigo-900/20"
                 >
                   {/* Image with overlay — hover effect only on image area */}
-                  <div className="relative overflow-hidden">
+                  <div className="relative overflow-hidden w-full h-44">
                     {blog.imageUrl ? (
                       <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <OptimizedImage
                           src={blog.imageUrl}
                           alt={blog.imageAlt || blog.title}
-                          className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
+                          width={400}
+                          height={225}
+                          className="w-full h-44 group-hover:scale-105"
                         />
                         {/* Overlay slides up — stays inside image bounds */}
                         <div className="absolute inset-0 bg-gradient-to-t from-[#07070f]/95 via-[#07070f]/75 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out flex flex-col justify-end p-5">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiExternalLink } from "react-icons/hi";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
@@ -111,18 +111,12 @@ export default function Projects({ showAll = false }) {
               >
                 <div className="h-[250px] relative overflow-hidden bg-[#0d0d1a]">
                   {visibleImages[project.id] !== false && (
-                    <Image
+                    <OptimizedImage
                       src={imageSrc}
                       alt={project.imageAlt || project.title}
-                      fill
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                      unoptimized
-                      onError={() =>
-                        setVisibleImages((prev) => ({
-                          ...prev,
-                          [project.id]: false,
-                        }))
-                      }
+                      width={340}
+                      height={250}
+                      className="w-full h-full group-hover:scale-105"
                     />
                   )}
                   <div className="absolute inset-0 bg-linear-to-t from-[#0d0d1a]/70 via-[#0d0d1a]/20 to-transparent" />
