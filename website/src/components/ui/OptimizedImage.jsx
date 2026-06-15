@@ -29,7 +29,7 @@ export default function OptimizedImage({
   }
 
   // Optimize Cloudinary URL for responsive images
-  const getOptimizedUrl = (url, w) => {
+  const getOptimizedUrl = (url) => {
     if (!url) return url;
     
     // If it's a Cloudinary URL, add responsive parameters
@@ -38,8 +38,8 @@ export default function OptimizedImage({
       const baseUrl = url.split('/image/upload/')[0] + '/image/upload/';
       const publicId = url.split('/image/upload/')[1];
       
-      // Add responsive transformation: auto format, quality, and fit
-      return `${baseUrl}f_auto,q_auto,c_limit,w_${w}/${publicId}`;
+      // Add responsive transformation: auto format, quality
+      return `${baseUrl}f_auto,q_auto/${publicId}`;
     }
     
     return url;
@@ -48,7 +48,7 @@ export default function OptimizedImage({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <Image
-        src={getOptimizedUrl(src, width)}
+        src={getOptimizedUrl(src)}
         alt={alt || 'Image'}
         width={width}
         height={height}

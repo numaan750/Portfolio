@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiExternalLink } from "react-icons/hi";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
 import { scaleIn, fadeUp } from "@/lib/animations";
-import { projects as fallbackProjects } from "@/lib/data";
+// fallbackProjects import removed
 import Link from "next/link";
 import { richTextToPlainText } from "@/components/ui/RichText";
 
@@ -21,7 +21,7 @@ const FILTERS = [
 
 export default function Projects({ showAll = false }) {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [projectList, setProjectList] = useState(fallbackProjects);
+  const [projectList, setProjectList] = useState([]);
   const [visibleImages, setVisibleImages] = useState({});
 
   useEffect(() => {
@@ -32,31 +32,16 @@ export default function Projects({ showAll = false }) {
         const dbProjects = await res.json();
 
         if (dbProjects && dbProjects.length > 0) {
-          // Merge database projects with fallbacks.
-          // Database projects have higher priority and will overwrite any fallback with matching slug or title.
-          const merged = [...dbProjects];
-
-          fallbackProjects.forEach((fallback) => {
-            const isOverridden = dbProjects.some(
-              (db) =>
-                db.slug === fallback.slug ||
-                db.title.toLowerCase() === fallback.title.toLowerCase()
-            );
-            if (!isOverridden) {
-              merged.push(fallback);
-            }
-          });
-
-          // Ensure standard mapping for IDs
-          const mapped = merged.map((p, idx) => ({
+          const mapped = dbProjects.map((p, idx) => ({
             ...p,
             id: p.id || p._id || `db-${idx}`,
             tech: p.tech || [],
             category: p.category || 'General',
             gradient: p.gradient || 'from-violet-500 to-pink-500',
           }));
-
           setProjectList(mapped);
+        } else {
+          setProjectList([]);
         }
       } catch (err) {
         console.warn("Backend offline or unreachable. Using offline fallback projects.", err);
@@ -107,8 +92,9 @@ export default function Projects({ showAll = false }) {
                 animate="show"
                 exit={{ opacity: 0, scale: 0.9 }}
                 layout
-                className="glass project-card overflow-hidden group"
+                className="relative glass project-card overflow-hidden group flex-none w-[450px] snap-start"
               >
+                <Link href={`/projects/${project.slug}`} className="absolute inset-0 z-10" aria-label={`View ${project.title}`} />
                 <div className="h-[250px] relative overflow-hidden bg-[#0d0d1a]">
                   {visibleImages[project.id] !== false && (
                     <OptimizedImage
@@ -119,10 +105,7 @@ export default function Projects({ showAll = false }) {
                       className="w-full h-full group-hover:scale-105"
                     />
                   )}
-                  <div className="absolute inset-0 bg-linear-to-t from-[#0d0d1a]/70 via-[#0d0d1a]/20 to-transparent" />
-                  <span className="absolute top-3.5 left-4 bg-linear-to-br from-[#6366f1] to-[#22d3ee] backdrop-blur-sm border border-white/10 rounded-full px-3 py-1 text-[0.72rem] font-bold text-slate-100 tracking-[0.06em]">
-                    {project.category}
-                  </span>
+                  <div className="absolute inset-0 bg-linear-to-t from-[#0d0d1a]/70 via-[#0d0d1a]/20 to-transparent pointer-events-none" />
                   {project.featured && (
                     <span className="absolute top-3.5 right-3.5 bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-full px-2.5 py-1 text-[0.68rem] font-extrabold text-white tracking-[0.06em] uppercase">
                       ★ Featured
@@ -146,13 +129,7 @@ export default function Projects({ showAll = false }) {
                       </span>
                     ))}
                   </div>
-                  <div className="flex flex-wrap gap-3">
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className="btn-outline text-[0.83rem] px-4.5 py-2.5 inline-flex items-center gap-1"
-                    >
-                      View Details
-                    </Link>
+                  <div className="flex flex-wrap gap-3 relative z-20">
                     {project.url && (
                       <a
                         href={project.url}
