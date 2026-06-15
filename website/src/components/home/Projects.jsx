@@ -23,6 +23,11 @@ export default function Projects({ showAll = false }) {
   const [activeFilter, setActiveFilter] = useState("All");
   const [projectList, setProjectList] = useState([]);
   const [visibleImages, setVisibleImages] = useState({});
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [activeFilter]);
 
   useEffect(() => {
     const fetchDbProjects = async () => {
@@ -55,7 +60,7 @@ export default function Projects({ showAll = false }) {
     activeFilter === "All"
       ? projectList
       : projectList.filter((p) => p.category === activeFilter);
-  const displayedProjects = showAll ? filtered : filtered.slice(0, 4);
+  const displayedProjects = showAll ? filtered.slice(0, visibleCount) : filtered.slice(0, 6);
 
   return (
     <SectionWrapper id="projects" className="pt-15 pb-15">
@@ -80,7 +85,7 @@ export default function Projects({ showAll = false }) {
           ))}
         </motion.div>
       )}
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-6 max-sm:grid-cols-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence mode="popLayout">
           {displayedProjects.map((project) => {
             const imageSrc = project.imageUrl || `https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url&type=jpeg`;
@@ -92,7 +97,7 @@ export default function Projects({ showAll = false }) {
                 animate="show"
                 exit={{ opacity: 0, scale: 0.9 }}
                 layout
-                className="relative glass project-card overflow-hidden group flex-none w-[450px] snap-start"
+                className="relative glass project-card overflow-hidden group flex flex-col"
               >
                 <Link href={`/projects/${project.slug}`} className="absolute inset-0 z-10" aria-label={`View ${project.title}`} />
                 <div className="h-[250px] relative overflow-hidden bg-[#0d0d1a]">
@@ -147,6 +152,16 @@ export default function Projects({ showAll = false }) {
           })}
         </AnimatePresence>
       </div>
+      {showAll && visibleCount < filtered.length && (
+        <div className="text-center mt-10">
+          <button
+            onClick={() => setVisibleCount((prev) => prev + 6)}
+            className="btn-outline px-6 py-3 text-sm cursor-pointer"
+          >
+            Load More
+          </button>
+        </div>
+      )}
       {!showAll && (
         <div className="text-center mt-10">
           <Link href="/projects" className="btn-outline px-6 py-3 text-sm">
