@@ -24,8 +24,6 @@ exports.uploadImage = async (req, res, next) => {
       {
         folder: 'portfolio',
         resource_type: 'auto',
-        // Ensure permanent storage
-        access_mode: 'token',
       },
       (error, result) => {
         if (error) {
