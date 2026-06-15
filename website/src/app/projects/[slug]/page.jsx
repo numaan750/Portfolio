@@ -102,7 +102,7 @@ export default async function ProjectDetailPage({ params }) {
             </div>
 
             {/* Title */}
-            <h1 className="max-w-4xl text-5xl font-extrabold tracking-tight text-white leading-[1.1] md:text-6xl lg:text-7xl">
+            <h1 className="max-w-full text-5xl font-extrabold tracking-tight text-white leading-[1.1] md:text-6xl lg:text-7xl">
               {project.title}
             </h1>
 
@@ -153,29 +153,12 @@ export default async function ProjectDetailPage({ params }) {
                 </a>
               )}
             </div>
-
-            {/* Divider line flowing into image */}
-            <div className="mt-16 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </div>
         </section>
 
-        {/* ── SCREENSHOT ── */}
         <section className="bg-[#07070f]">
           <div className="mycontainer py-12">
             <div className="group relative overflow-hidden rounded-2xl border border-white/8 shadow-2xl shadow-black/60">
-              {/* Fake browser chrome top bar */}
-              <div className="flex items-center gap-2 border-b border-white/8 bg-[#0d1117] px-5 py-3">
-                <span className="h-3 w-3 rounded-full bg-red-500/70" />
-                <span className="h-3 w-3 rounded-full bg-yellow-400/70" />
-                <span className="h-3 w-3 rounded-full bg-green-400/70" />
-                <div className="mx-auto flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-1 text-xs text-slate-500">
-                  <span className="h-2 w-2 rounded-full bg-green-400/60" />
-                  {project.url ? project.url.replace(/https?:\/\//, "") : "preview"}
-                </div>
-              </div>
-
-              {/* Screenshot */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imageSrc}
                 alt={project.imageAlt || project.title}
