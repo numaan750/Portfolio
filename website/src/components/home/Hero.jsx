@@ -1,11 +1,49 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedinIn, FaEnvelope, FaPhone } from "react-icons/fa";
 import { HiArrowRight } from "react-icons/hi";
 import { personalInfo } from "@/lib/data";
 
 export default function Hero() {
+  const phrases = [
+    "UI/UX Design (Adobe XD, Figma)",
+    "Full Stack Development (MERN)",
+    "Search Engine Optimization (SEO)",
+  ];
+  const [currentText, setCurrentText] = useState("");
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentPhrase = phrases[currentPhraseIndex];
+
+    if (!isDeleting && currentText === currentPhrase) {
+      const pauseTimeout = window.setTimeout(() => {
+        setIsDeleting(true);
+      }, 1600);
+      return () => window.clearTimeout(pauseTimeout);
+    }
+
+    if (isDeleting && currentText === "") {
+      setIsDeleting(false);
+      setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
+      return;
+    }
+
+    const speed = isDeleting ? 45 : 70;
+    const timeout = window.setTimeout(() => {
+      setCurrentText((prev) =>
+        isDeleting
+          ? prev.slice(0, -1)
+          : currentPhrase.slice(0, prev.length + 1)
+      );
+    }, speed);
+
+    return () => window.clearTimeout(timeout);
+  }, [currentPhraseIndex, currentText, isDeleting, phrases]);
+
   const handleScroll = (href) => {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -20,6 +58,7 @@ export default function Hero() {
         muted
         loop
         playsInline
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover z-0"
         src="/Portfolio-background-Video.mp4"
       />
@@ -58,20 +97,23 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.7 }}
-              className="text-[clamp(2.8rem,7vw,5.5rem)] font-black leading-[1.05] tracking-[-0.03em] mb-4 text-slate-100"
+              className="text-[clamp(1.5rem,5vw,5.5rem)] font-black leading-[1.05] tracking-[-0.03em] mb-4 text-slate-100"
             >
-              {personalInfo.name.split(" ")[0]}{" "}
+              {personalInfo.name.split(" ").slice(0, -1).join(" ")}{" "}
               <span className="gradient-text">
-                {personalInfo.name.split(" ")[1]}
+                {personalInfo.name.split(" ").slice(-1)}
               </span>
             </motion.h1>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.7 }}
-              className="text-[clamp(1.2rem,3vw,1.75rem)] font-bold text-gray-300 mb-4 tracking-[-0.01em]"
+              className="mb-4 min-h-[1.8em]"
             >
-              {personalInfo.title}
+              <span className="inline-block max-w-full text-[clamp(1.15rem,2.8vw,1.8rem)] font-bold leading-tight tracking-[-0.02em] text-cyan-300">
+                {currentText}
+                <span className="ml-0.5 inline-block h-[1em] w-[0.5ch] animate-pulse bg-cyan-300 align-middle" />
+              </span>
             </motion.div>
             <motion.p
               initial={{ opacity: 0, y: 30 }}

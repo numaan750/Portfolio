@@ -1,5 +1,5 @@
 export const personalInfo = {
-  name: "Numaan Ali",
+  name: "Building Modern Web Apps",
   title: "MERN Stack Developer",
   tagline: "Building high-quality, scalable web experiences",
   email: "alinumaan35@gmail.com",

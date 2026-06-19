@@ -26,13 +26,22 @@ export default function Navbar() {
   const activeLinkHref = activeLink?.href ?? "";
 
   useEffect(() => {
+    let ticking = false;
+
     const onScroll = () => {
-      const currentY = window.scrollY;
-      setScrolled(currentY > 40);
-      setVisible(currentY < lastScrollY.current || currentY < 10);
-      lastScrollY.current = currentY;
+      if (ticking) return;
+
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        const currentY = window.scrollY;
+        setScrolled(currentY > 40);
+        setVisible(currentY < lastScrollY.current || currentY < 10);
+        lastScrollY.current = currentY;
+        ticking = false;
+      });
     };
-    window.addEventListener("scroll", onScroll);
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 

@@ -5,16 +5,28 @@ import { motion } from 'framer-motion'
 
 export default function ScrollProgress() {
   useEffect(() => {
+    let ticking = false
+
     const updateProgress = () => {
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      const value = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
-      document.documentElement.style.setProperty('--scroll-progress', `${value}%`)
+      if (ticking) return
+      ticking = true
+
+      window.requestAnimationFrame(() => {
+        const scrollTop = window.scrollY
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight
+        const value = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
+        document.documentElement.style.setProperty('--scroll-progress', `${value}%`)
+        ticking = false
+      })
     }
 
     updateProgress()
     window.addEventListener('scroll', updateProgress, { passive: true })
-    return () => window.removeEventListener('scroll', updateProgress)
+    window.addEventListener('resize', updateProgress, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', updateProgress)
+      window.removeEventListener('resize', updateProgress)
+    }
   }, [])
 
   return (

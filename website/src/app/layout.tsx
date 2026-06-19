@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
 import { WebsiteProvider } from '@/context/AppContext';
+import Preloader from "@/components/Preloader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body><WebsiteProvider>
+      <body><Preloader /><WebsiteProvider>
         {children}</WebsiteProvider>
       </body>
     </html>
