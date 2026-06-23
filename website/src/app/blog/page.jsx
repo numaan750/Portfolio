@@ -9,6 +9,21 @@ import OptimizedImage from "@/components/ui/OptimizedImage";
 import { FiCalendar, FiUser, FiArrowRight } from "react-icons/fi";
 import { richTextToPlainText } from "@/components/ui/RichText";
 
+export const metadata = {
+  title: "Blog | Nexcode",
+  description:
+    "Explore articles on web development, UI/UX design, SEO, performance, and modern digital product strategy.",
+  keywords: [
+    "Numaan Ali blog",
+    "web development blog",
+    "UI/UX design articles",
+    "SEO tips",
+    "Next.js blog",
+    "React development",
+    "portfolio blog",
+  ],
+};
+
 export default function BlogListPage() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);

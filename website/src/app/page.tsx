@@ -14,6 +14,22 @@ import HomeCta from '@/components/home/HomeCta'
 import FAQ from '@/components/home/FAQ'
 import Footer from '@/components/layout/Footer'
 
+export const metadata = {
+  title: "Home | Nexcode",
+  description:
+    "Launch modern websites, web apps, and SEO-optimized digital experiences with Numaan Ali.",
+  keywords: [
+    "Numaan Ali",
+    "Nexcode",
+    "Home",
+    "Full-Stack Developer",
+    "UI/UX Designer",
+    "SEO Services",
+    "Next.js",
+    "React",
+  ],
+};
+
 export default function Home() {
   return (
     <>

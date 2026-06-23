@@ -3,8 +3,15 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy | Nexcode",
+  title: "Privacy Policy",
   description: "Privacy policy detailing how Nexcode and Numaan Ali collect, use, and protect your information.",
+  keywords: [
+    "privacy policy",
+    "data protection",
+    "personal information",
+    "Nexcode privacy",
+    "portfolio privacy",
+  ],
 };
 
 export default function PrivacyPolicyPage() {

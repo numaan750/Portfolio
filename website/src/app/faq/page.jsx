@@ -3,8 +3,16 @@ import Footer from "@/components/layout/Footer";
 import FAQContent from "@/components/faq/FAQContent";
 
 export const metadata = {
-  title: "Frequently Asked Questions | Nexcode",
+  title: "Frequently Asked Questions",
   description: "Find answers to frequently asked questions about Nexcode's web development, custom software design, and AI solutions.",
+  keywords: [
+    "FAQ",
+    "web development questions",
+    "UI UX questions",
+    "SEO questions",
+    "Nexcode support",
+    "portfolio FAQs",
+  ],
 };
 
 export default function FAQPage() {

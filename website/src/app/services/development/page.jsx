@@ -2,6 +2,20 @@ import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
+export const metadata = {
+  title: "Full-Stack Development | Nexcode",
+  description:
+    "Custom full-stack web development services using Next.js, React, Node.js, and scalable backend architecture.",
+  keywords: [
+    "full-stack development",
+    "Next.js development",
+    "React developer",
+    "web application development",
+    "backend development",
+    "Nexcode development",
+  ],
+};
+
 export default function DevelopmentPage() {
   return (
     <>

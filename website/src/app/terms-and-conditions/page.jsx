@@ -3,8 +3,15 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms & Conditions | Nexcode",
+  title: "Terms & Conditions",
   description: "Terms and conditions governing the use of Nexcode's web development and AI integration services.",
+  keywords: [
+    "terms and conditions",
+    "legal",
+    "service terms",
+    "Nexcode terms",
+    "portfolio legal",
+  ],
 };
 
 export default function TermsPage() {

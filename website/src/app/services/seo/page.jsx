@@ -2,6 +2,20 @@ import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
+export const metadata = {
+  title: "SEO & Performance | Nexcode",
+  description:
+    "Technical SEO and performance optimization services designed to improve search visibility and website speed.",
+  keywords: [
+    "SEO services",
+    "technical SEO",
+    "performance optimization",
+    "web performance",
+    "search visibility",
+    "Nexcode SEO",
+  ],
+};
+
 export default function SEOPage() {
   return (
     <>

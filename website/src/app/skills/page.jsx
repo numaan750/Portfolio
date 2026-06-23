@@ -12,6 +12,20 @@ import ExperienceCaseStudies from "@/components/experience/ExperienceCaseStudies
 import ExperienceMilestones from "@/components/experience/ExperienceMilestones";
 import ExperiencePartners from "@/components/experience/ExperiencePartners";
 
+export const metadata = {
+  title: "Skills & Expertise",
+  description:
+    "See the tools, technologies, and development expertise behind Numaan Ali's web projects.",
+  keywords: [
+    "skills",
+    "web development skills",
+    "UI UX expertise",
+    "React skills",
+    "Next.js skills",
+    "SEO expertise",
+  ],
+};
+
 export default function SkillsPage() {
   return (
     <>

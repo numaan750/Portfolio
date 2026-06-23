@@ -2,6 +2,20 @@ import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
+export const metadata = {
+  title: "UI / UX Design | Nexcode",
+  description:
+    "User-centered UI/UX design services that create intuitive, accessible, and brand-forward digital experiences.",
+  keywords: [
+    "UI UX design",
+    "user experience",
+    "interface design",
+    "design systems",
+    "digital product design",
+    "Nexcode UI UX",
+  ],
+};
+
 export default function UIUXPage() {
   return (
     <>

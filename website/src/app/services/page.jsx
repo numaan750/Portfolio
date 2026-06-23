@@ -3,6 +3,20 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
 
+export const metadata = {
+  title: "Services | Nexcode",
+  description:
+    "Discover professional web design, full-stack development, and SEO services tailored for modern businesses.",
+  keywords: [
+    "web development services",
+    "UI UX services",
+    "SEO services",
+    "Next.js developer",
+    "portfolio services",
+    "custom web development",
+  ],
+};
+
 const SERVICES = [
     {
         title: "UI / UX Design",

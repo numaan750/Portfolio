@@ -8,6 +8,20 @@ import AboutTeam from "@/components/about/AboutTeam";
 import AboutInvite from "@/components/about/AboutInvite";
 // import About from "@/components/about/About";
 
+export const metadata = {
+  title: "About",
+  description:
+    "Learn more about Numaan Ali, his design process, development approach, and the values behind every project.",
+  keywords: [
+    "about",
+    "Numaan Ali",
+    "web developer",
+    "UI UX specialist",
+    "portfolio about",
+    "design process",
+  ],
+};
+
 export default function AboutPage() {
   return (
     <>
