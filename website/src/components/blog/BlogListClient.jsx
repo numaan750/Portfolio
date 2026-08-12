@@ -15,6 +15,7 @@ export default function BlogListClient() {
 
   useEffect(() => {
     const fetchBlogs = async () => {
+      setLoading(true);
       try {
         const res = await fetch(`/api/blogs`);
         if (!res.ok) return;
@@ -46,8 +47,21 @@ export default function BlogListClient() {
           </div>
 
           {loading ? (
-            <div className="flex h-64 items-center justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="overflow-hidden rounded-2xl border border-white/5 bg-[#0b1220]/60">
+                  <div className="skeleton h-44 w-full rounded-none" />
+                  <div className="p-5 space-y-3">
+                    <div className="skeleton h-4 w-4/5" />
+                    <div className="flex items-center gap-4">
+                      <div className="skeleton h-3 w-20" />
+                      <div className="skeleton h-3 w-24" />
+                    </div>
+                    <div className="skeleton h-3 w-full" />
+                    <div className="skeleton h-3 w-2/3" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : blogs.length === 0 ? (
             <div className="glass rounded-3xl p-16 text-center border border-white/5 bg-[#0b1220]/40 backdrop-blur-md">
@@ -82,7 +96,7 @@ export default function BlogListClient() {
                       </>
                     ) : (
                       <div className="w-full h-44 bg-gradient-to-br from-indigo-900/40 to-violet-900/30 flex items-center justify-center">
-                        <span className="text-indigo-400/30 text-5xl font-black">//</span>
+                        <span className="text-indigo-400/30 text-5xl font-black">{"//"}</span>
                       </div>
                     )}
                   </div>

@@ -22,15 +22,12 @@ const FILTERS = [
 export default function Projects({ showAll = false }) {
   const [activeFilter, setActiveFilter] = useState("All");
   const [projectList, setProjectList] = useState([]);
-  const [visibleImages, setVisibleImages] = useState({});
   const [visibleCount, setVisibleCount] = useState(6);
-
-  useEffect(() => {
-    setVisibleCount(6);
-  }, [activeFilter]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDbProjects = async () => {
+      setLoading(true);
       try {
         const res = await fetch('/api/projects');
         if (!res.ok) return;
@@ -50,6 +47,8 @@ export default function Projects({ showAll = false }) {
         }
       } catch (err) {
         console.warn("Backend offline or unreachable. Using offline fallback projects.", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -74,7 +73,10 @@ export default function Projects({ showAll = false }) {
           {FILTERS.map((f) => (
             <button
               key={f}
-              onClick={() => setActiveFilter(f)}
+              onClick={() => {
+                setActiveFilter(f);
+                setVisibleCount(6);
+              }}
               className={`px-4.5 py-2 rounded-lg border font-semibold text-[0.82rem] cursor-pointer transition-all duration-250 ${activeFilter === f
                   ? "border-[#6366f1] bg-linear-to-br from-[#6366f1] to-[#22d3ee] text-white"
                   : "border-[#6366f1]/20 bg-transparent text-slate-400"
@@ -85,23 +87,42 @@ export default function Projects({ showAll = false }) {
           ))}
         </motion.div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <AnimatePresence mode="popLayout">
-          {displayedProjects.map((project) => {
-            const imageSrc = project.imageUrl || `https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url&type=jpeg`;
-            return (
-              <motion.div
-                key={project.id}
-                variants={scaleIn}
-                initial="hidden"
-                animate="show"
-                exit={{ opacity: 0, scale: 0.9 }}
-                layout
-                className="relative glass project-card overflow-hidden group flex flex-col"
-              >
-                <Link href={`/projects/${project.slug}`} className="absolute inset-0 z-10" aria-label={`View ${project.title}`} />
-                <div className="h-[250px] relative overflow-hidden bg-[#0d0d1a]">
-                  {visibleImages[project.id] !== false && (
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="glass overflow-hidden rounded-2xl border border-white/5">
+              <div className="skeleton h-[250px] w-full rounded-none" />
+              <div className="p-5.5 py-6 space-y-4">
+                <div className="skeleton h-5 w-3/4" />
+                <div className="skeleton h-3 w-full" />
+                <div className="skeleton h-3 w-5/6" />
+                <div className="flex flex-wrap gap-2">
+                  <div className="skeleton h-6 w-16 rounded-full" />
+                  <div className="skeleton h-6 w-20 rounded-full" />
+                  <div className="skeleton h-6 w-14 rounded-full" />
+                </div>
+                <div className="skeleton h-10 w-32 rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence mode="popLayout">
+            {displayedProjects.map((project) => {
+              const imageSrc = project.imageUrl || `https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url&type=jpeg`;
+              return (
+                <motion.div
+                  key={project.id}
+                  variants={scaleIn}
+                  initial="hidden"
+                  animate="show"
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  layout
+                  className="relative glass project-card overflow-hidden group flex flex-col"
+                >
+                  <Link href={`/projects/${project.slug}`} className="absolute inset-0 z-10" aria-label={`View ${project.title}`} />
+                  <div className="h-[250px] relative overflow-hidden bg-[#0d0d1a]">
                     <OptimizedImage
                       src={imageSrc}
                       alt={project.imageAlt || project.title}
@@ -109,49 +130,49 @@ export default function Projects({ showAll = false }) {
                       height={250}
                       className="w-full h-full group-hover:scale-105"
                     />
-                  )}
-                  <div className="absolute inset-0 bg-linear-to-t from-[#0d0d1a]/70 via-[#0d0d1a]/20 to-transparent pointer-events-none" />
-                  {project.featured && (
-                    <span className="absolute top-3.5 right-3.5 bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-full px-2.5 py-1 text-[0.68rem] font-extrabold text-white tracking-[0.06em] uppercase">
-                      ★ Featured
-                    </span>
-                  )}
-                </div>
-                <div className="px-5.5 py-6">
-                  <h3 className="font-extrabold text-[1.1rem] text-slate-100 mb-2.5">
-                    {project.title}
-                  </h3>
-                  <p className="text-slate-400 text-[0.88rem] leading-[1.7] mb-4.5 line-clamp-3">
-                    {richTextToPlainText(project.description)}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {project.tech && project.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="px-2.5 py-1 rounded-full border border-[#6366f1]/20 text-[0.72rem] font-semibold text-slate-400"
-                      >
-                        {t}
+                    <div className="absolute inset-0 bg-linear-to-t from-[#0d0d1a]/70 via-[#0d0d1a]/20 to-transparent pointer-events-none" />
+                    {project.featured && (
+                      <span className="absolute top-3.5 right-3.5 bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-full px-2.5 py-1 text-[0.68rem] font-extrabold text-white tracking-[0.06em] uppercase">
+                        ★ Featured
                       </span>
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-3 relative z-20">
-                    {project.url && (
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-outline text-[0.83rem] px-4.5 py-2.5 inline-flex items-center gap-1 border-[#6366f1]/20 hover:bg-[#6366f1]/10"
-                      >
-                        Live Demo <HiExternalLink />
-                      </a>
                     )}
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
+                  <div className="px-5.5 py-6">
+                    <h3 className="font-extrabold text-[1.1rem] text-slate-100 mb-2.5">
+                      {project.title}
+                    </h3>
+                    <p className="text-slate-400 text-[0.88rem] leading-[1.7] mb-4.5 line-clamp-3">
+                      {richTextToPlainText(project.description)}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {project.tech && project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="px-2.5 py-1 rounded-full border border-[#6366f1]/20 text-[0.72rem] font-semibold text-slate-400"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap gap-3 relative z-20">
+                      {project.url && (
+                        <a
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-outline text-[0.83rem] px-4.5 py-2.5 inline-flex items-center gap-1 border-[#6366f1]/20 hover:bg-[#6366f1]/10"
+                        >
+                          Live Demo <HiExternalLink />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+      )}
       {showAll && visibleCount < filtered.length && (
         <div className="text-center mt-10">
           <button
