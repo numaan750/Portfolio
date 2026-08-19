@@ -10,7 +10,7 @@ const BACKEND_URL = process.env.BACKEND_URL || "https://portfolio-backend-psi-wh
 
 async function getBlog(slug) {
   const res = await fetch(`${BACKEND_URL}/api/blogs/${encodeURIComponent(slug)}`, {
-    next: { revalidate: 60 },
+    cache: 'no-store',
   });
   if (!res.ok) return null;
   return res.json();
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }) {
 
 async function getAllBlogs() {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/blogs`, { next: { revalidate: 60 } });
+    const res = await fetch(`${BACKEND_URL}/api/blogs`, { cache: 'no-store' });
     if (!res.ok) return [];
     return res.json();
   } catch {

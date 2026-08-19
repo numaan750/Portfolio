@@ -14,9 +14,11 @@ export default function ExperienceCaseStudies() {
   const [caseList, setCaseList] = useState(FALLBACK_CASES);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchDbCaseStudies = async () => {
       try {
-        const res = await fetch('/api/casestudies');
+        const res = await fetch('/api/casestudies', { cache: 'no-store' });
         if (!res.ok) return;
         const dbCases = await res.json();
 
@@ -40,7 +42,9 @@ export default function ExperienceCaseStudies() {
             }
           });
 
-          setCaseList(merged);
+          if (isMounted) setCaseList(merged);
+        } else if (isMounted) {
+          setCaseList(FALLBACK_CASES);
         }
       } catch (err) {
         console.warn("Backend offline or unreachable. Using fallback case studies.", err);
@@ -48,6 +52,14 @@ export default function ExperienceCaseStudies() {
     };
 
     fetchDbCaseStudies();
+    const refreshInterval = window.setInterval(fetchDbCaseStudies, 5000);
+    window.addEventListener('focus', fetchDbCaseStudies);
+
+    return () => {
+      isMounted = false;
+      window.clearInterval(refreshInterval);
+      window.removeEventListener('focus', fetchDbCaseStudies);
+    };
   }, []);
 
   return (

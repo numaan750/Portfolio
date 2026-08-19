@@ -14,21 +14,30 @@ export default function BlogListClient() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchBlogs = async () => {
-      setLoading(true);
       try {
-        const res = await fetch(`/api/blogs`);
+        const res = await fetch(`/api/blogs`, { cache: 'no-store' });
         if (!res.ok) return;
         const data = await res.json();
-        setBlogs(data);
+        if (isMounted) setBlogs(Array.isArray(data) ? data : []);
       } catch (err) {
         console.warn("Backend offline or unreachable. No blogs loaded.", err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchBlogs();
+    const refreshInterval = window.setInterval(fetchBlogs, 5000);
+    window.addEventListener('focus', fetchBlogs);
+
+    return () => {
+      isMounted = false;
+      window.clearInterval(refreshInterval);
+      window.removeEventListener('focus', fetchBlogs);
+    };
   }, []);
 
   return (
