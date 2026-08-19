@@ -6,6 +6,7 @@ const router = express.Router();
 const { getAllBlogs, getBlogBySlug } = require('../controllers/blogController');
 const { getAllProjects, getProjectBySlug } = require('../controllers/projectController');
 const { getAllCaseStudies, getCaseStudyBySlug } = require('../controllers/caseStudyController');
+const { getAllReviews } = require('../controllers/reviewController');
 const { getImage } = require('../controllers/uploadController');
 
 router.get('/uploads/:id', getImage);
@@ -21,5 +22,8 @@ router.get('/projects/:slug', getProjectBySlug);
 // Public CaseStudy routes
 router.get('/casestudies', getAllCaseStudies);
 router.get('/casestudies/:slug', getCaseStudyBySlug);
+
+// Public Review routes
+router.get('/reviews', getAllReviews);
 
 module.exports = router;

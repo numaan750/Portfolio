@@ -1,31 +1,52 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getReviews, deleteReview } from './actions';
-import { Trash2, MessageSquare, Star } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
+import { Trash2, MessageSquare, Star, Plus, X, Edit2 } from 'lucide-react';
+
+interface ReviewFormData {
+  name: string;
+  role: string;
+  company: string;
+  content: string;
+  rating: number;
+}
+
+const emptyForm: ReviewFormData = { name: '', role: 'Client', company: '', content: '', rating: 5 };
 
 export default function ReviewsPage() {
-  const [reviews, setReviews] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchReviews = async () => {
-    setLoading(true);
-    const data = await getReviews();
-    setReviews(data);
-    setLoading(false);
-  };
+  const { reviews, reviewsLoading: loading, fetchReviews, createReview, updateReview, deleteReview } = useApp();
+  const [form, setForm] = useState<ReviewFormData>(emptyForm);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [formOpen, setFormOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetchReviews();
+    fetchReviews().catch(() => alert('Failed to load reviews.'));
   }, []);
 
-  const handleDelete = async (id: string | number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this review?')) return;
-    const res = await deleteReview(id as string);
-    if (res.success) {
-      setReviews(reviews.filter(r => r.id !== id));
-    } else {
-      alert(res.error || 'Failed to delete review');
+    try {
+      await deleteReview(id);
+    } catch {
+      alert('Failed to delete review.');
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setSaving(true);
+    try {
+      if (editingId) await updateReview(editingId, form);
+      else await createReview(form);
+      setForm(emptyForm);
+      setEditingId(null);
+      setFormOpen(false);
+    } catch {
+      alert('Failed to save review.');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -46,10 +67,30 @@ export default function ReviewsPage() {
             Reviews Management
           </h1>
           <p className="text-sm text-zinc-400 mt-2">
-            View and manage user reviews submitted from your website's case studies.
+            Add and manage the testimonials shown on your website.
           </p>
         </div>
+        <button onClick={() => { setEditingId(null); setForm(emptyForm); setFormOpen(true); }} className="gradient-bg text-white text-sm font-semibold py-2.5 px-4 rounded-xl flex items-center gap-2">
+          <Plus size={18} /> Add Review
+        </button>
       </div>
+
+      {formOpen && (
+        <form onSubmit={handleSubmit} className="glass-panel p-6 border border-zinc-800/80 rounded-2xl space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-white">{editingId ? 'Edit Review' : 'Add Review'}</h2>
+            <button type="button" onClick={() => setFormOpen(false)} className="text-zinc-400 hover:text-white"><X size={18} /></button>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {(['name', 'role', 'company'] as const).map((field) => (
+              <input key={field} required={field === 'name'} value={form[field]} onChange={(event) => setForm({ ...form, [field]: event.target.value })} placeholder={field.charAt(0).toUpperCase() + field.slice(1)} className="rounded-lg bg-zinc-900 border border-zinc-800 px-3 py-2.5 text-sm text-white outline-none focus:border-purple-500" />
+            ))}
+            <input type="number" min="1" max="5" required value={form.rating} onChange={(event) => setForm({ ...form, rating: Number(event.target.value) })} placeholder="Rating" className="rounded-lg bg-zinc-900 border border-zinc-800 px-3 py-2.5 text-sm text-white outline-none focus:border-purple-500" />
+          </div>
+          <textarea required rows={4} value={form.content} onChange={(event) => setForm({ ...form, content: event.target.value })} placeholder="Review content" className="w-full rounded-lg bg-zinc-900 border border-zinc-800 px-3 py-2.5 text-sm text-white outline-none focus:border-purple-500" />
+          <button disabled={saving} className="gradient-bg text-white text-sm font-semibold py-2.5 px-5 rounded-xl disabled:opacity-50">{saving ? 'Saving...' : editingId ? 'Update Review' : 'Save Review'}</button>
+        </form>
+      )}
 
       <div className="grid gap-6">
         {reviews.length === 0 ? (
@@ -59,8 +100,8 @@ export default function ReviewsPage() {
             <p className="text-sm text-zinc-500">When users submit reviews, they will appear here.</p>
           </div>
         ) : (
-          reviews.map((review: any) => (
-            <div key={review.id} className="glass-panel p-6 sm:p-8 border border-zinc-800/80 rounded-2xl flex flex-col sm:flex-row justify-between items-start gap-6 transition-all hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.05)] relative overflow-hidden group">
+          reviews.map((review) => (
+            <div key={review._id} className="glass-panel p-6 sm:p-8 border border-zinc-800/80 rounded-2xl flex flex-col sm:flex-row justify-between items-start gap-6 transition-all hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.05)] relative overflow-hidden group">
               {/* Accent blur */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-3xl pointer-events-none rounded-full group-hover:bg-purple-500/10 transition-colors" />
 
@@ -72,7 +113,7 @@ export default function ReviewsPage() {
                   </span>
                 </div>
                 
-                <p className="text-zinc-300 text-base leading-relaxed italic bg-zinc-900/50 p-4 rounded-xl border border-zinc-800/50">"{review.review}"</p>
+                <p className="text-zinc-300 text-base leading-relaxed italic bg-zinc-900/50 p-4 rounded-xl border border-zinc-800/50">&quot;{review.content}&quot;</p>
                 
                 <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-zinc-500 pt-2">
                   <div className="flex items-center gap-1 bg-zinc-900 px-2.5 py-1.5 rounded-md border border-zinc-800">
@@ -85,21 +126,17 @@ export default function ReviewsPage() {
                       {new Date(review.createdAt).toLocaleDateString()}
                     </span>
                   )}
-                  {review.caseStudyId && (
-                    <span className="bg-purple-500/10 text-purple-400 px-2.5 py-1.5 rounded-md border border-purple-500/20">
-                      Case Study: {review.caseStudyId}
-                    </span>
-                  )}
                 </div>
               </div>
 
-              <button
-                onClick={() => handleDelete(review.id)}
-                className="p-3 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all border border-zinc-800 hover:border-red-500/30 sm:mt-0 mt-2"
-                title="Delete Review"
-              >
-                <Trash2 size={20} />
-              </button>
+              <div className="flex gap-2 sm:mt-0 mt-2">
+                <button onClick={() => { setEditingId(review._id); setForm({ name: review.name, role: review.role || 'Client', company: review.company || '', content: review.content, rating: review.rating || 5 }); setFormOpen(true); }} className="p-3 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-xl transition-all border border-zinc-800" title="Edit Review">
+                  <Edit2 size={20} />
+                </button>
+                <button onClick={() => handleDelete(review._id)} className="p-3 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all border border-zinc-800 hover:border-red-500/30" title="Delete Review">
+                  <Trash2 size={20} />
+                </button>
+              </div>
             </div>
           ))
         )}

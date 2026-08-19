@@ -1,33 +1,20 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 
-const reviewsFilePath = path.join(process.cwd(), 'src', 'lib', 'data', 'reviews.json');
-
-// Ensure the file exists
-if (!fs.existsSync(reviewsFilePath)) {
-  fs.writeFileSync(reviewsFilePath, JSON.stringify([]), 'utf8');
-}
+const BACKEND_URL = process.env.BACKEND_URL;
 
 export async function GET() {
-  const data = fs.readFileSync(reviewsFilePath, 'utf8');
-  const reviews = JSON.parse(data);
-  return NextResponse.json(reviews);
-}
-
-export async function POST(request: Request) {
   try {
-    const newReview = await request.json();
-    const data = fs.readFileSync(reviewsFilePath, 'utf8');
-    const reviews = JSON.parse(data);
-    // Simple validation
-    if (!newReview.name || !newReview.content) {
-      return NextResponse.json({ error: 'Missing name or content' }, { status: 400 });
-    }
-    reviews.push({ id: Date.now(), ...newReview });
-    fs.writeFileSync(reviewsFilePath, JSON.stringify(reviews, null, 2), 'utf8');
-    return NextResponse.json({ success: true, review: newReview }, { status: 201 });
+    if (!BACKEND_URL) return NextResponse.json({ error: 'BACKEND_URL not set' }, { status: 500 });
+    const response = await fetch(`${BACKEND_URL}/api/reviews`, {
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+    });
+    const data = await response.json();
+    return NextResponse.json(data, {
+      status: response.status,
+      headers: { 'Cache-Control': 'no-store, max-age=0' },
+    });
   } catch (err) {
-    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+    return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
   }
 }

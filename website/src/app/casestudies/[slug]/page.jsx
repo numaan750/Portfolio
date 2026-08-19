@@ -7,7 +7,7 @@ import RichText from "@/components/ui/RichText";
 // import ReviewForm from '@/components/caseStudy/ReviewForm';
 
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+const BACKEND_URL = process.env.BACKEND_URL || "https://portfolio-backend-psi-wheat.vercel.app";
 
 async function getCaseStudy(slug) {
   const res = await fetch(`${BACKEND_URL}/api/casestudies/${encodeURIComponent(slug)}`, {

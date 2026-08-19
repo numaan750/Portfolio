@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
 
@@ -8,6 +8,7 @@ import api from '@/lib/api';
 interface Blog { _id: string; title: string; slug: string; author: string; content: string; imageUrl?: string; imageAlt?: string; createdAt: string; }
 interface Project { _id: string; title: string; slug: string; description: string; url?: string; imageUrl?: string; imageAlt?: string; category: string; tech: string[]; gradient: string; featured: boolean; }
 interface CaseStudy { _id: string; title: string; slug: string; description: string; content: string; imageUrl?: string; imageAlt?: string; createdAt: string; }
+interface Review { _id: string; name: string; role?: string; company?: string; content: string; rating: number; image?: string; createdAt: string; }
 
 interface AppContextType {
   // Auth
@@ -40,6 +41,14 @@ interface AppContextType {
   createCaseStudy: (data: Partial<CaseStudy>) => Promise<void>;
   updateCaseStudy: (slug: string, data: Partial<CaseStudy>) => Promise<void>;
   deleteCaseStudy: (slug: string) => Promise<void>;
+
+  // Reviews
+  reviews: Review[];
+  reviewsLoading: boolean;
+  fetchReviews: () => Promise<void>;
+  createReview: (data: Partial<Review>) => Promise<void>;
+  updateReview: (id: string, data: Partial<Review>) => Promise<void>;
+  deleteReview: (id: string) => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -52,6 +61,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [blogsLoading, setBlogsLoading] = useState(false);
   const [projectsLoading, setProjectsLoading] = useState(false);
   const [caseStudiesLoading, setCaseStudiesLoading] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
 
   // --- AUTH ---
   const login = async (email: string, password: string) => {
@@ -160,12 +171,39 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setCaseStudies((prev) => prev.filter((cs) => cs.slug !== slug));
   };
 
+  // --- REVIEWS ---
+  const fetchReviews = async () => {
+    setReviewsLoading(true);
+    try {
+      const { data } = await api.get('/api/admin/reviews');
+      setReviews(data);
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
+  const createReview = async (payload: Partial<Review>) => {
+    await api.post('/api/admin/reviews', payload);
+    await fetchReviews();
+  };
+
+  const updateReview = async (id: string, payload: Partial<Review>) => {
+    await api.put(`/api/admin/reviews/${id}`, payload);
+    await fetchReviews();
+  };
+
+  const deleteReview = async (id: string) => {
+    await api.delete(`/api/admin/reviews/${id}`);
+    setReviews((prev) => prev.filter((review) => review._id !== id));
+  };
+
   return (
     <AppContext.Provider value={{
       login, logout,
       blogs, blogsLoading, fetchBlogs, getBlog, createBlog, updateBlog, deleteBlog,
       projects, projectsLoading, fetchProjects, getProject, createProject, updateProject, deleteProject,
       caseStudies, caseStudiesLoading, fetchCaseStudies, getCaseStudy, createCaseStudy, updateCaseStudy, deleteCaseStudy,
+      reviews, reviewsLoading, fetchReviews, createReview, updateReview, deleteReview,
     }}>
       {children}
     </AppContext.Provider>

@@ -290,33 +290,6 @@ export const experience = [
   },
 ];
 
-export const testimonials = [
-  {
-    id: 1,
-    name: "Sarah Jenkins",
-    role: "Product Manager @ TechFlow",
-    content:
-      "Numaan transformed our vision into reality. His expertise in Next.js and AI integrations helped us launch weeks ahead of schedule. Truly an exceptional developer!",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    role: "Founder @ EstatePro",
-    content:
-      "Working with Numaan was a breeze. He rebuilt our entire real estate platform with a flawless UI and lightning-fast performance. Highly recommend for any complex MERN project.",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-  },
-  {
-    id: 3,
-    name: "Emily Rodriguez",
-    role: "Creative Director @ Studio Nine",
-    content:
-      "The AI-powered features Numaan built for us are mind-blowing. He doesn't just write code; he understands the user experience and business goals perfectly.",
-    image: "https://randomuser.me/api/portraits/women/68.jpg",
-  },
-];
-
 export const faqs = [
 {
 id: 1,

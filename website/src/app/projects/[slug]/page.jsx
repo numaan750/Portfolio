@@ -7,7 +7,7 @@ import { HiOutlineCode } from "react-icons/hi";
 import RichText from "@/components/ui/RichText";
 
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+const BACKEND_URL = process.env.BACKEND_URL || "https://portfolio-backend-psi-wheat.vercel.app";
 
 async function getProject(slug) {
   const res = await fetch(`${BACKEND_URL}/api/projects/${encodeURIComponent(slug)}`, {

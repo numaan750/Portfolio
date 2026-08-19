@@ -6,7 +6,7 @@ import OptimizedImage from "@/components/ui/OptimizedImage";
 import { FiCalendar, FiUser, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import RichText from "@/components/ui/RichText";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+const BACKEND_URL = process.env.BACKEND_URL || "https://portfolio-backend-psi-wheat.vercel.app";
 
 async function getBlog(slug) {
   const res = await fetch(`${BACKEND_URL}/api/blogs/${encodeURIComponent(slug)}`, {

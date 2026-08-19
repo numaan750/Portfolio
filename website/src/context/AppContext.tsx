@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
 
 // Use internal Next.js proxy routes (no direct backend calls from browser)
@@ -9,6 +9,7 @@ const API_URL = '';
 interface Blog { _id: string; title: string; slug: string; author: string; content: string; imageUrl?: string; imageAlt?: string; createdAt: string; }
 interface Project { _id: string; title: string; slug: string; description: string; url?: string; imageUrl?: string; imageAlt?: string; category: string; tech: string[]; gradient: string; featured: boolean; }
 interface CaseStudy { _id: string; title: string; slug: string; description: string; content: string; imageUrl?: string; imageAlt?: string; createdAt: string; }
+interface Review { _id: string; name: string; role?: string; company?: string; content: string; rating: number; image?: string; createdAt: string; }
 
 interface WebsiteContextType {
   fetchBlogs: () => Promise<Blog[]>;
@@ -16,6 +17,7 @@ interface WebsiteContextType {
   fetchProjects: () => Promise<Project[]>;
   fetchCaseStudies: () => Promise<CaseStudy[]>;
   fetchCaseStudyBySlug: (slug: string) => Promise<CaseStudy>;
+  fetchReviews: () => Promise<Review[]>;
 }
 
 const WebsiteContext = createContext<WebsiteContextType | null>(null);
@@ -51,8 +53,14 @@ export function WebsiteProvider({ children }: { children: ReactNode }) {
     return res.json();
   };
 
+  const fetchReviews = useCallback(async (): Promise<Review[]> => {
+    const res = await fetch(`/api/reviews`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to fetch reviews');
+    return res.json();
+  }, []);
+
   return (
-    <WebsiteContext.Provider value={{ fetchBlogs, fetchBlogBySlug, fetchProjects, fetchCaseStudies, fetchCaseStudyBySlug }}>
+    <WebsiteContext.Provider value={{ fetchBlogs, fetchBlogBySlug, fetchProjects, fetchCaseStudies, fetchCaseStudyBySlug, fetchReviews }}>
       {children}
     </WebsiteContext.Provider>
   );
