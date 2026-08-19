@@ -11,7 +11,7 @@ const BACKEND_URL = process.env.BACKEND_URL || "https://portfolio-backend-psi-wh
 
 async function getProject(slug) {
   const res = await fetch(`${BACKEND_URL}/api/projects/${encodeURIComponent(slug)}`, {
-    next: { revalidate: 60 },
+    cache: 'no-store',
   });
   if (!res.ok) return null;
   return res.json();

@@ -24,31 +24,31 @@ const WebsiteContext = createContext<WebsiteContextType | null>(null);
 
 export function WebsiteProvider({ children }: { children: ReactNode }) {
   const fetchBlogs = async (): Promise<Blog[]> => {
-    const res = await fetch(`/api/blogs`);
+    const res = await fetch(`/api/blogs`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch blogs');
     return res.json();
   };
 
   const fetchBlogBySlug = async (slug: string): Promise<Blog> => {
-    const res = await fetch(`/api/blogs/${encodeURIComponent(slug)}`);
+    const res = await fetch(`/api/blogs/${encodeURIComponent(slug)}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Blog not found');
     return res.json();
   };
 
   const fetchProjects = async (): Promise<Project[]> => {
-    const res = await fetch(`/api/projects`);
+    const res = await fetch(`/api/projects`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch projects');
     return res.json();
   };
 
   const fetchCaseStudies = async (): Promise<CaseStudy[]> => {
-    const res = await fetch(`/api/casestudies`);
+    const res = await fetch(`/api/casestudies`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch case studies');
     return res.json();
   };
 
   const fetchCaseStudyBySlug = async (slug: string): Promise<CaseStudy> => {
-    const res = await fetch(`/api/casestudies/${encodeURIComponent(slug)}`);
+    const res = await fetch(`/api/casestudies/${encodeURIComponent(slug)}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Case study not found');
     return res.json();
   };

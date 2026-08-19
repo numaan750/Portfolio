@@ -9,7 +9,7 @@ export async function GET() {
 
   const res = await fetch(`${BACKEND_URL}/api/projects`, {
     headers: { 'Content-Type': 'application/json' },
-    next: { revalidate: 60 },
+    cache: 'no-store',
   });
 
   if (!res.ok) {
@@ -18,6 +18,6 @@ export async function GET() {
   }
 
   const data = await res.json();
-  return NextResponse.json(data);
+  return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store, max-age=0' } });
 }
 

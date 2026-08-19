@@ -26,10 +26,11 @@ export default function Projects({ showAll = false }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchDbProjects = async () => {
-      setLoading(true);
       try {
-        const res = await fetch('/api/projects');
+        const res = await fetch('/api/projects', { cache: 'no-store' });
         if (!res.ok) return;
         const dbProjects = await res.json();
 
@@ -41,18 +42,26 @@ export default function Projects({ showAll = false }) {
             category: p.category || 'General',
             gradient: p.gradient || 'from-violet-500 to-pink-500',
           }));
-          setProjectList(mapped);
+          if (isMounted) setProjectList(mapped);
         } else {
-          setProjectList([]);
+          if (isMounted) setProjectList([]);
         }
       } catch (err) {
         console.warn("Backend offline or unreachable. Using offline fallback projects.", err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchDbProjects();
+    const refreshInterval = window.setInterval(fetchDbProjects, 5000);
+    window.addEventListener('focus', fetchDbProjects);
+
+    return () => {
+      isMounted = false;
+      window.clearInterval(refreshInterval);
+      window.removeEventListener('focus', fetchDbProjects);
+    };
   }, []);
 
   const filtered =
