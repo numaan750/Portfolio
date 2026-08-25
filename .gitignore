@@ -1,6 +1,4 @@
 # Environment variables - DO NOT COMMIT
-.env
-.env.local
 .env.*.local
 
 # Dependencies
@@ -28,3 +26,4 @@ pnpm-debug.log*
 /dist
 /.next
 /out
+config.bat
