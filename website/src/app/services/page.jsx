@@ -16,7 +16,6 @@ export const metadata = {
         "custom web development",
     ],
 };
-
 const SERVICES = [
     {
         title: "UI / UX Design",
