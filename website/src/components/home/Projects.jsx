@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { motion, AnimatePresence } from "framer-motion";
-import { HiExternalLink } from "react-icons/hi";
+// import { HiExternalLink } from "react-icons/hi";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
 import { scaleIn, fadeUp } from "@/lib/animations";
 // fallbackProjects import removed
@@ -87,8 +87,8 @@ export default function Projects({ showAll = false }) {
                 setVisibleCount(6);
               }}
               className={`px-4.5 py-2 rounded-lg border font-semibold text-[0.82rem] cursor-pointer transition-all duration-250 ${activeFilter === f
-                  ? "border-[#6366f1] bg-linear-to-br from-[#6366f1] to-[#22d3ee] text-white"
-                  : "border-[#6366f1]/20 bg-transparent text-slate-400"
+                ? "border-[#6366f1] bg-linear-to-br from-[#6366f1] to-[#22d3ee] text-white"
+                : "border-[#6366f1]/20 bg-transparent text-slate-400"
                 }`}
             >
               {f}
@@ -116,7 +116,7 @@ export default function Projects({ showAll = false }) {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           <AnimatePresence mode="popLayout">
             {displayedProjects.map((project) => {
               const imageSrc = project.imageUrl || `https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url&type=jpeg`;
@@ -128,52 +128,38 @@ export default function Projects({ showAll = false }) {
                   animate="show"
                   exit={{ opacity: 0, scale: 0.9 }}
                   layout
-                  className="relative glass project-card overflow-hidden group flex flex-col"
+                  className="relative glass project-card !bg-[#0d1325] overflow-hidden group flex flex-col "
                 >
-                  <Link href={`/projects/${project.slug}`} className="absolute inset-0 z-10" aria-label={`View ${project.title}`} />
-                  <div className="h-[250px] relative overflow-hidden bg-[#0d0d1a]">
-                    <OptimizedImage
-                      src={imageSrc}
-                      alt={project.imageAlt || project.title}
-                      width={340}
-                      height={250}
-                      className="w-full h-full group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-[#0d0d1a]/70 via-[#0d0d1a]/20 to-transparent pointer-events-none" />
-                    {project.featured && (
-                      <span className="absolute top-3.5 right-3.5 bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-full px-2.5 py-1 text-[0.68rem] font-extrabold text-white tracking-[0.06em] uppercase">
-                        ★ Featured
-                      </span>
-                    )}
+                  <Link href={`/projects/${project.slug}`} className="absolute inset-0 z-10 " aria-label={`View ${project.title}`} />
+                  <div className="w-full p-3 pb-0">
+                    <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl relative">
+                      <OptimizedImage
+                        src={imageSrc}
+                        alt={project.imageAlt || project.title}
+                        width={800}
+                        height={450}
+                        className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                      />
+                      {project.featured && (
+                        <span className="absolute top-3.5 right-3.5 bg-linear-to-br from-[#6366f1] to-[#22d3ee] rounded-full px-2.5 py-1 text-[0.68rem] font-extrabold text-white tracking-[0.06em] uppercase">
+                          ★ Featured
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="px-5.5 py-6">
-                    <h3 className="font-extrabold text-[1.1rem] text-slate-100 mb-2.5">
+                  <div className="flex flex-1 flex-col px-5 pb-6 pt-5 sm:px-6">
+                    <h3 className="mb-3 text-xl font-bold leading-snug text-white transition-colors duration-300 line-clamp-2 group-hover:text-indigo-300">
                       {project.title}
                     </h3>
-                    <p className="text-slate-400 text-[0.88rem] leading-[1.7] mb-4.5 line-clamp-3">
+                    <p className="mb-6 line-clamp-3 text-sm leading-6 text-slate-400 sm:text-[12px]">
                       {richTextToPlainText(project.description)}
                     </p>
-                    <div className="flex flex-wrap gap-1.5 mb-5">
-                      {project.tech && project.tech.map((t) => (
-                        <span
-                          key={t}
-                          className="px-2.5 py-1 rounded-full border border-[#6366f1]/20 text-[0.72rem] font-semibold text-slate-400"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="flex flex-wrap gap-3 relative z-20">
-                      {project.url && (
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-outline text-[0.83rem] px-4.5 py-2.5 inline-flex items-center gap-1 border-[#6366f1]/20 hover:bg-[#6366f1]/10"
-                        >
-                          Live Demo <HiExternalLink />
-                        </a>
-                      )}
+
+                    <div className="mt-auto flex items-center gap-0.5 text-sm font-semibold text-indigo-400 transition-colors duration-300 group-hover:text-indigo-300 relative z-20">
+                      <span>View Project</span>
+                      <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
                     </div>
                   </div>
                 </motion.div>

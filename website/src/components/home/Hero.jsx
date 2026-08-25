@@ -154,11 +154,6 @@ export default function Hero() {
             >
               {[
                 {
-                  icon: <FaGithub />,
-                  href: personalInfo.github,
-                  label: "GitHub",
-                },
-                {
                   icon: <FaLinkedinIn />,
                   href: personalInfo.linkedin,
                   label: "LinkedIn",

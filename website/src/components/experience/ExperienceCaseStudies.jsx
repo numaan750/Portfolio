@@ -5,13 +5,9 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import Link from "next/link";
 import { richTextToPlainText } from "@/components/ui/RichText";
 
-const FALLBACK_CASES = [
-  { title: "Enterprise Analytics Portal", highlight: "Architected sophisticated KPI dashboards and conversion-optimized data visualizations.", image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80" },
-  { title: "High-Performance Brand Platform", highlight: "Engineered a modern, highly engaging landing experience optimized for seamless user acquisition flows.", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80" },
-];
 
 export default function ExperienceCaseStudies() {
-  const [caseList, setCaseList] = useState(FALLBACK_CASES);
+  const [caseList, setCaseList] = useState([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -23,7 +19,6 @@ export default function ExperienceCaseStudies() {
         const dbCases = await res.json();
 
         if (dbCases && dbCases.length > 0) {
-          // Merge database case studies with fallbacks.
           const merged = dbCases.map((c) => ({
             title: c.title,
             highlight: richTextToPlainText(c.description || c.content || '').slice(0, 140),
@@ -32,19 +27,9 @@ export default function ExperienceCaseStudies() {
             imageAlt: c.imageAlt || c.title,
           }));
 
-          // Add fallbacks that are not overridden by title
-          FALLBACK_CASES.forEach((fallback) => {
-            const isOverridden = dbCases.some(
-              (db) => db.title.toLowerCase() === fallback.title.toLowerCase()
-            );
-            if (!isOverridden) {
-              merged.push(fallback);
-            }
-          });
-
           if (isMounted) setCaseList(merged);
         } else if (isMounted) {
-          setCaseList(FALLBACK_CASES);
+          setCaseList([]);
         }
       } catch (err) {
         console.warn("Backend offline or unreachable. Using fallback case studies.", err);
@@ -69,14 +54,39 @@ export default function ExperienceCaseStudies() {
           <p className="section-tag">Case Studies</p>
           <h2 className="section-title">Insights from Real Client Success Stories</h2>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
+        <div className="grid gap-6 sm:gap-7 md:grid-cols-2 lg:grid-cols-3">
           {caseList.map((item, idx) => (
-            <Link href={item.slug ? `/casestudies/${item.slug}` : "#"} key={item.slug || item.title || idx} className="group overflow-hidden rounded-3xl border border-white/10 bg-[#0b1220]/90 block">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.image} alt={item.imageAlt || item.title} className="h-72 w-full object-cover transition duration-500 group-hover:scale-105" />
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold text-white group-hover:text-cyan-400 transition-colors">{item.title}</h3>
-                <p className="mt-3 text-slate-300 leading-7">{item.highlight}</p>
+            <Link
+              href={item.slug ? `/casestudies/${item.slug}` : "#"}
+              key={item.slug || item.title || idx}
+              className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-white/5 bg-[#0d1325] backdrop-blur-sm"
+            >
+              {/* IMAGE */}
+              <div className="w-full p-4 pb-0 sm:p-3 sm:pb-0">
+                <div className="aspect-[16/9] overflow-hidden rounded-2xl">
+                  <img
+                    src={item.image}
+                    alt={item.imageAlt || item.title}
+                    className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </div>
+              </div>
+
+              {/* CONTENT */}
+              <div className="flex flex-1 flex-col px-5 pb-6 pt-5 sm:px-6">
+                <h3 className="mb-3 text-xl font-bold leading-snug text-white transition-colors duration-300 line-clamp-2 group-hover:text-indigo-300 sm:text-[18px]">
+                  {item.title}
+                </h3>
+                <p className="mb-6 line-clamp-4 text-sm leading-6 text-slate-400 sm:text-[13px]">
+                  {item.highlight}
+                </p>
+                <div className="mt-auto flex items-center gap-0.5 text-sm font-semibold text-indigo-400 transition-colors duration-300 group-hover:text-indigo-300">
+                  <span>Read case study</span>
+                  <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </div>
               </div>
             </Link>
           ))}

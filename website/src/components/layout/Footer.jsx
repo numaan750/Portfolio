@@ -48,7 +48,6 @@ export default function Footer() {
         </div>
         <div className="flex gap-3">
           {[
-            { icon: <FaGithub />, href: personalInfo.github, label: "GitHub" },
             {
               icon: <FaLinkedinIn />,
               href: personalInfo.linkedin,

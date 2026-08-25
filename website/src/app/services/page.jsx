@@ -4,17 +4,17 @@ import Footer from "@/components/layout/Footer";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
 
 export const metadata = {
-  title: "Services | Nexcode",
-  description:
-    "Discover professional web design, full-stack development, and SEO services tailored for modern businesses.",
-  keywords: [
-    "web development services",
-    "UI UX services",
-    "SEO services",
-    "Next.js developer",
-    "portfolio services",
-    "custom web development",
-  ],
+    title: "Services | Nexcode",
+    description:
+        "Discover professional web design, full-stack development, and SEO services tailored for modern businesses.",
+    keywords: [
+        "web development services",
+        "UI UX services",
+        "SEO services",
+        "Next.js developer",
+        "portfolio services",
+        "custom web development",
+    ],
 };
 
 const SERVICES = [
@@ -84,37 +84,33 @@ export default function ServicesPage() {
                         title="Services Designed Around Your Business Needs"
                         subtitle="Every business has unique goals. Whether you need a modern website, a custom web application, or better online visibility, I provide solutions tailored to your requirements and growth objectives."
                     />
-                    <div className="grid gap-8 lg:grid-cols-3">
+                    <div className="grid gap-6 sm:gap-7 md:grid-cols-2 lg:grid-cols-3">
                         {SERVICES.map((service) => (
-                            <article key={service.slug} className="group overflow-hidden rounded-4xl border border-white/10 bg-[#0b1325] shadow-[0_30px_100px_rgba(0,0,0,0.18)] transition-transform duration-300 hover:-translate-y-2">
-                                <div className="relative h-72 overflow-hidden">
-                                    <img
-                                        src={service.image}
-                                        alt={service.title}
-                                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out bg-linear-to-t from-black/85 via-black/60 to-transparent p-6">
-                                        <h2 className="text-2xl font-semibold text-white">{service.title}</h2>
-                                        <p className="mt-3 text-sm text-slate-300">{service.description}</p>
+                            <a key={service.slug} href={`/services/${service.slug}`} className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-white/5 bg-[#0d1325] backdrop-blur-sm">
+                                <div className="w-full p-4 pb-0 sm:p-3 sm:pb-0">
+                                    <div className="aspect-[16/9] overflow-hidden rounded-2xl">
+                                        <img
+                                            src={service.image}
+                                            alt={service.title}
+                                            className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                                        />
                                     </div>
                                 </div>
-                                <div className="space-y-4 p-6">
-                                    <ul className="space-y-3 text-slate-300">
-                                        {service.details.map((detail) => (
-                                            <li key={detail} className="flex gap-3">
-                                                <span className="mt-1 h-2.5 w-2.5 rounded-full bg-indigo-400" />
-                                                <span>{detail}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <Link
-                                        href={`/services/${service.slug}`}
-                                        className="inline-flex items-center justify-center rounded-full bg-indigo-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-400"
-                                    >
-                                        View details
-                                    </Link>
+                                <div className="flex flex-1 flex-col px-5 pb-6 pt-5 sm:px-6">
+                                    <h3 className="mb-3 text-xl font-bold leading-snug text-white transition-colors duration-300 line-clamp-2 group-hover:text-indigo-300 sm:text-[18px]">
+                                        {service.title}
+                                    </h3>
+                                    <p className="mb-6 line-clamp-3 text-sm leading-6 text-slate-400 sm:text-[13px]">
+                                        {service.description}
+                                    </p>
+                                    <div className="mt-auto flex items-center gap-0.5 text-sm font-semibold text-indigo-400 transition-colors duration-300 group-hover:text-indigo-300">
+                                        <span>Learn more</span>
+                                        <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </div>
                                 </div>
-                            </article>
+                            </a>
                         ))}
                     </div>
                 </SectionWrapper>
@@ -151,15 +147,16 @@ export default function ServicesPage() {
                     </div>
                 </SectionWrapper>
 
-                <section className=" py-15">
-                    <div className="mycontainer flex flex-col gap-10 rounded-4xl border border-white/10 bg-linear-to-br from-[#111620] to-[#08101d] p-10 shadow-[0_30px_120px_rgba(59,130,246,0.1)] lg:flex-row lg:items-center lg:justify-between">
-                        <div>
-                            <p className="text-sm uppercase tracking-[0.35em] text-indigo-300">Let's Build Something Great</p>
-                            <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">Ready to Start Your Next Project?</h2>
-                            <p className="mt-4 max-w-2xl text-slate-300">Whether you need a website, web application, or performance-focused solution, I can help transform your ideas into a modern digital product built for growth.
+                <section className="py-12 sm:py-15">
+                    <div className="mycontainer flex flex-col gap-6 sm:gap-8 lg:gap-10 rounded-2xl sm:rounded-3xl lg:rounded-4xl border border-white/10 bg-[#0d1325] p-6 sm:p-8 lg:p-10 shadow-[0_30px_120px_rgba(59,130,246,0.1)] lg:flex-row lg:items-center lg:justify-between">
+                        <div className="flex-1">
+                            <p className="text-xs sm:text-sm uppercase tracking-[0.35em] text-indigo-300">Let's Build Something Great</p>
+                            <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">Ready to Start Your Next Project?</h2>
+                            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+                                Whether you need a website, web application, or performance-focused solution, I can help transform your ideas into a modern digital product built for growth.
                             </p>
                         </div>
-                        <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100">
+                        <Link href="/contact" className="flex-shrink-0 inline-flex items-center justify-center rounded-full bg-white px-6 sm:px-8 lg:px-10 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-slate-900 transition hover:bg-slate-100 whitespace-nowrap">
                             Get In Touch
                         </Link>
                     </div>

@@ -6,10 +6,24 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import OptimizedImage from "@/components/ui/OptimizedImage";
-import { FiCalendar, FiUser, FiArrowRight } from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi";
 import { richTextToPlainText } from "@/components/ui/RichText";
 
 export default function BlogListClient() {
+  const getBlogDescription = (blog) => {
+    if (blog.description) return blog.description;
+    if (blog.excerpt) return blog.excerpt;
+
+    if (blog.content) {
+      try {
+        return richTextToPlainText(blog.content);
+      } catch {
+        return "";
+      }
+    }
+
+    return "";
+  };
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -56,11 +70,11 @@ export default function BlogListClient() {
           </div>
 
           {loading ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:gap-7 md:grid-cols-2 xl:grid-cols-3">
               {Array.from({ length: 6 }).map((_, index) => (
                 <div key={index} className="overflow-hidden rounded-2xl border border-white/5 bg-[#0b1220]/60">
-                  <div className="skeleton h-44 w-full rounded-none" />
-                  <div className="p-5 space-y-3">
+                  <div className="skeleton h-56 w-full rounded-none sm:h-64" />
+                  <div className="p-6 space-y-4">
                     <div className="skeleton h-4 w-4/5" />
                     <div className="flex items-center gap-4">
                       <div className="skeleton h-3 w-20" />
@@ -77,55 +91,68 @@ export default function BlogListClient() {
               <p className="text-slate-400 text-lg">No blog posts published yet. Stay tuned!</p>
             </div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:gap-7 md:grid-cols-2 xl:grid-cols-3">
               {blogs.map((blog) => (
                 <Link
                   key={blog._id}
                   href={`/blog/${blog.slug}`}
-                  className="group block overflow-hidden rounded-2xl border border-white/5 bg-[#0b1220]/60 hover:border-indigo-500/30 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-indigo-900/20"
+                  className=" group flex h-full flex-col overflow-hidden rounded-[24px] border  border-white/5  bg-[#0d1325] backdrop-blur-sm "
                 >
-                  <div className="relative overflow-hidden w-full h-44">
+                  {/* IMAGE */}
+                  <div className="w-full p-4 pb-0 sm:p-3 sm:pb-0">
                     {blog.imageUrl ? (
-                      <>
+                      <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl">
                         <OptimizedImage
                           src={blog.imageUrl}
                           alt={blog.imageAlt || blog.title}
-                          width={400}
-                          height={225}
-                          className="w-full h-44 group-hover:scale-105"
+                          width={800}
+                          height={450}
+                          className=" h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#07070f]/95 via-[#07070f]/75 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out flex flex-col justify-end p-5">
-                          <h3 className="text-white font-bold text-sm leading-snug mb-1.5 line-clamp-2">
-                            {blog.title}
-                          </h3>
-                          <p className="text-slate-300 text-xs leading-relaxed line-clamp-3">
-                            {richTextToPlainText(blog.content)}
-                          </p>
-                        </div>
-                      </>
+                      </div>
                     ) : (
-                      <div className="w-full h-44 bg-gradient-to-br from-indigo-900/40 to-violet-900/30 flex items-center justify-center">
-                        <span className="text-indigo-400/30 text-5xl font-black">{"//"}</span>
+                      <div
+                        className=" flex aspect-[16/9] w-full items-center justify-center rounded-2xl bg-gradient-to-br  from-slate-700/40  to-slate-800/30"
+                      >
+                        <span className="text-4xl font-black text-slate-400/30">
+                          {"//"}
+                        </span>
                       </div>
                     )}
                   </div>
 
-                  <div className="p-5 space-y-3">
-                    <h2 className="text-white font-bold text-base leading-snug line-clamp-2 group-hover:text-indigo-300 transition-colors">
+                  {/* CONTENT */}
+                  <div className="flex flex-1 flex-col px-5 pb-6 pt-5 sm:px-6">
+                    {/* DATE */}
+                    <p className="mb-3 text-sm font-medium text-slate-400">
+                      {new Date(blog.createdAt).toISOString().split("T")[0]}
+                    </p>
+
+                    {/* TITLE */}
+                    <h2
+                      className=" mb-3 text-xl font-bold leading-snug  text-white transition-colors duration-300 line-clamp-2  group-hover:text-indigo-300  sm:text-[18px] "
+                    >
                       {blog.title}
                     </h2>
-                    <div className="flex items-center gap-4 text-xs text-slate-500">
-                      <span className="flex items-center gap-1.5">
-                        <FiUser className="text-indigo-500/70" />
-                        {blog.author || "Admin"}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <FiCalendar className="text-indigo-500/70" />
-                        {new Date(blog.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="pt-2 border-t border-white/5 flex items-center gap-1.5 text-xs font-semibold text-indigo-400">
-                      Read Article <FiArrowRight className="text-[11px]" />
+
+                    {/* DESCRIPTION */}
+                    {getBlogDescription(blog) && (
+                      <p
+                        className=" mb-6 line-clamp-3 text-sm leading-6  text-slate-400 sm:text-[12px] "
+                      >
+                        {getBlogDescription(blog)}
+                      </p>
+                    )}
+
+                    {/* READ ARTICLE */}
+                    <div
+                      className=" mt-auto flex items-center gap-0.5 text-sm font-semibol  text-indigo-400 transition-colors duration-30  group-hover:text-indigo-300"
+                    >
+                      <span>Read article</span>
+
+                      <FiArrowRight
+                        className=" text-base transition-transform duration-300 group-hover:translate-x-1 mt-1"
+                      />
                     </div>
                   </div>
                 </Link>

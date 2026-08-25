@@ -4,7 +4,6 @@ export const personalInfo = {
   tagline: "Building high-quality, scalable web experiences",
   email: "alinumaan35@gmail.com",
   phone: "+923365370090",
-  github: "https://github.com/numaan750",
   linkedin: "https://www.linkedin.com/in/im-numaan-ali/",
   location: "Lahore, Pakistan",
   summary:
