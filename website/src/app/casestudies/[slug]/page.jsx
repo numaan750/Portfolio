@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
   const casestudy = await getCaseStudy(slug);
   if (!casestudy) {
     return {
-      title: "Case Study Not Found | Nexcode",
+      title: "Case Study Not Found | Soft Line Devs",
     };
   }
 
@@ -31,8 +31,8 @@ export async function generateMetadata({ params }) {
     ? casestudy.description.replace(/<[^>]*>/g, "").substring(0, 160).trim()
     : "";
 
-  const finalTitle = casestudy.metaTitle || `${casestudy.title} | Nexcode Case Study`;
-  const finalDesc = casestudy.metaDescription || plainTextDescription || "Custom full-stack web application development case study by Nexcode.";
+  const finalTitle = casestudy.metaTitle || `${casestudy.title} | Soft Line Devs Case Study`;
+  const finalDesc = casestudy.metaDescription || plainTextDescription || "Custom full-stack web application development case study by Soft Line Devs.";
   const finalImage = casestudy.metaImage || casestudy.imageUrl || "";
 
   return {

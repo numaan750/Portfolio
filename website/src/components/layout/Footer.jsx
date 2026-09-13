@@ -33,7 +33,7 @@ export default function Footer() {
           href="#home"
           className="font-extrabold text-[1.3rem] no-underline bg-linear-to-br from-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent"
         >
-          Nexcode
+          Soft Line Devs
         </a>
         <div className="flex gap-6 flex-wrap justify-center">
           {FOOTER_LINKS.map((item) => (

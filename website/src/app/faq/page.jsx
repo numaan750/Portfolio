@@ -4,13 +4,13 @@ import FAQContent from "@/components/faq/FAQContent";
 
 export const metadata = {
   title: "Frequently Asked Questions",
-  description: "Find answers to frequently asked questions about Nexcode's web development, custom software design, and AI solutions.",
+  description: "Find answers to frequently asked questions about Soft Line Devs's web development, custom software design, and AI solutions.",
   keywords: [
     "FAQ",
     "web development questions",
     "UI UX questions",
     "SEO questions",
-    "Nexcode support",
+    "Soft Line Devs support",
     "portfolio FAQs",
   ],
 };

@@ -77,7 +77,7 @@ export default function Navbar() {
               }}
               className="font-extrabold text-xl no-underline tracking-tight gradient-text"
             >
-              Nexcode
+              Soft Line Devs
             </Link>
             <div className="hidden md:flex gap-2 items-center">
               {NAV_LINKS.map((link) => {

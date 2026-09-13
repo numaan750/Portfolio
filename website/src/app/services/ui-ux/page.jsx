@@ -3,7 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata = {
-  title: "UI / UX Design | Nexcode",
+  title: "UI / UX Design | Soft Line Devs",
   description:
     "User-centered UI/UX design services that create intuitive, accessible, and brand-forward digital experiences.",
   keywords: [
@@ -12,7 +12,7 @@ export const metadata = {
     "interface design",
     "design systems",
     "digital product design",
-    "Nexcode UI UX",
+    "Soft Line Devs UI UX",
   ],
 };
 

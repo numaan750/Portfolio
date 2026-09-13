@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
   const project = await getProject(slug);
   if (!project) {
     return {
-      title: "Project Not Found | Nexcode",
+      title: "Project Not Found | Soft Line Devs",
     };
   }
 
@@ -31,8 +31,8 @@ export async function generateMetadata({ params }) {
     ? project.description.replace(/<[^>]*>/g, "").substring(0, 160).trim()
     : "";
 
-  const finalTitle = project.metaTitle || `${project.title} | Nexcode Project`;
-  const finalDesc = project.metaDescription || plainTextDescription || "Custom full-stack web application showcase built by Nexcode.";
+  const finalTitle = project.metaTitle || `${project.title} | Soft Line Devs Project`;
+  const finalDesc = project.metaDescription || plainTextDescription || "Custom full-stack web application showcase built by Soft Line Devs.";
   const finalImage = project.metaImage || project.imageUrl || "";
 
   return {

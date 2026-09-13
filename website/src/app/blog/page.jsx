@@ -1,7 +1,7 @@
 import BlogListClient from "@/components/blog/BlogListClient";
 
 export const metadata = {
-  title: "Blog | Nexcode",
+  title: "Blog | Soft Line Devs",
   description:
     "Explore articles on web development, UI/UX design, SEO, performance, and modern digital product strategy.",
   keywords: [

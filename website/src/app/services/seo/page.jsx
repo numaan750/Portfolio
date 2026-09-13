@@ -3,7 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata = {
-  title: "SEO & Performance | Nexcode",
+  title: "SEO & Performance | Soft Line Devs",
   description:
     "Technical SEO and performance optimization services designed to improve search visibility and website speed.",
   keywords: [
@@ -12,7 +12,7 @@ export const metadata = {
     "performance optimization",
     "web performance",
     "search visibility",
-    "Nexcode SEO",
+    "Soft Line Devs SEO",
   ],
 };
 

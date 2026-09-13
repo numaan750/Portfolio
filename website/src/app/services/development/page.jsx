@@ -3,7 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata = {
-  title: "Full-Stack Development | Nexcode",
+  title: "Full-Stack Development | Soft Line Devs",
   description:
     "Custom full-stack web development services using Next.js, React, Node.js, and scalable backend architecture.",
   keywords: [
@@ -12,7 +12,7 @@ export const metadata = {
     "React developer",
     "web application development",
     "backend development",
-    "Nexcode development",
+    "Soft Line Devs development",
   ],
 };
 

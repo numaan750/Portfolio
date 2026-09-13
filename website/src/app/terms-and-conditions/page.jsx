@@ -4,12 +4,12 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Terms & Conditions",
-  description: "Terms and conditions governing the use of Nexcode's web development and AI integration services.",
+  description: "Terms and conditions governing the use of Soft Line Devs's web development and AI integration services.",
   keywords: [
     "terms and conditions",
     "legal",
     "service terms",
-    "Nexcode terms",
+    "Soft Line Devs terms",
     "portfolio legal",
   ],
 };
@@ -41,7 +41,7 @@ export default function TermsPage() {
                 1. Acceptance of Terms
               </h2>
               <p>
-                Welcome to Nexcode. By accessing our website, subscribing to our services, or working with us on a development project, you agree to comply with and be bound by the following Terms and Conditions. These terms apply to all visitors, clients, and users who access or use our services.
+                Welcome to Soft Line Devs. By accessing our website, subscribing to our services, or working with us on a development project, you agree to comply with and be bound by the following Terms and Conditions. These terms apply to all visitors, clients, and users who access or use our services.
               </p>
             </section>
 
@@ -51,7 +51,7 @@ export default function TermsPage() {
                 2. Services Provided
               </h2>
               <p>
-                Nexcode, operated by Numaan Ali, offers professional web development, UI/UX design, custom MERN stack applications, Next.js optimization, API integrations, and AI-powered custom solutions. The specific scope, deliverables, timeline, and budget for any service will be detailed in a separate Project Proposal or Service Agreement.
+                Soft Line Devs, operated by Numaan Ali, offers professional web development, UI/UX design, custom MERN stack applications, Next.js optimization, API integrations, and AI-powered custom solutions. The specific scope, deliverables, timeline, and budget for any service will be detailed in a separate Project Proposal or Service Agreement.
               </p>
             </section>
 
@@ -64,7 +64,7 @@ export default function TermsPage() {
                 Upon final, full payment for completed projects, the custom source code, design assets, and database schemas created specifically for the project will be fully transferred to the Client.
               </p>
               <p>
-                Nexcode retains the right to display screenshots, links, and summaries of the completed work in our online portfolio, case studies, and marketing materials, unless a strict Non-Disclosure Agreement (NDA) has been signed by both parties.
+                Soft Line Devs retains the right to display screenshots, links, and summaries of the completed work in our online portfolio, case studies, and marketing materials, unless a strict Non-Disclosure Agreement (NDA) has been signed by both parties.
               </p>
             </section>
 
@@ -74,7 +74,7 @@ export default function TermsPage() {
                 4. Client Responsibilities
               </h2>
               <p>
-                To ensure successful project delivery, the Client is responsible for providing clear specifications, assets (such as logo, brand guidelines, content, and media), and timely feedback during milestones. Nexcode is not responsible for project delays caused by a lack of client responsiveness or missing content/assets.
+                To ensure successful project delivery, the Client is responsible for providing clear specifications, assets (such as logo, brand guidelines, content, and media), and timely feedback during milestones. Soft Line Devs is not responsible for project delays caused by a lack of client responsiveness or missing content/assets.
               </p>
             </section>
 
@@ -87,7 +87,7 @@ export default function TermsPage() {
                 Payment schedules, deposit amounts (typically 50% upfront for new clients), and milestones will be specified in the Project Agreement. Invoices are due within 7 days of receipt unless otherwise agreed.
               </p>
               <p>
-                If payments are delayed, Nexcode reserves the right to halt work or suspend live services until outstanding amounts are settled.
+                If payments are delayed, Soft Line Devs reserves the right to halt work or suspend live services until outstanding amounts are settled.
               </p>
             </section>
 
@@ -97,7 +97,7 @@ export default function TermsPage() {
                 6. Limitation of Liability
               </h2>
               <p>
-                While we strive for bug-free and optimized code, Nexcode is not liable for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use our deliverables, including but not limited to server downtime, database breaches, third-party API changes, or loss of business revenue.
+                While we strive for bug-free and optimized code, Soft Line Devs is not liable for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use our deliverables, including but not limited to server downtime, database breaches, third-party API changes, or loss of business revenue.
               </p>
             </section>
 

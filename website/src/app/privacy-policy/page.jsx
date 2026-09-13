@@ -4,12 +4,12 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy detailing how Nexcode and Numaan Ali collect, use, and protect your information.",
+  description: "Privacy policy detailing how Soft Line Devs and Numaan Ali collect, use, and protect your information.",
   keywords: [
     "privacy policy",
     "data protection",
     "personal information",
-    "Nexcode privacy",
+    "Soft Line Devs privacy",
     "portfolio privacy",
   ],
 };
@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
                 1. Information We Collect
               </h2>
               <p className="mb-3">
-                At Nexcode, we respect your privacy and are committed to protecting it. We only collect personal information that you voluntarily provide to us when you fill out our contact form or send us an email. This information may include:
+                At Soft Line Devs, we respect your privacy and are committed to protecting it. We only collect personal information that you voluntarily provide to us when you fill out our contact form or send us an email. This information may include:
               </p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Your name</li>

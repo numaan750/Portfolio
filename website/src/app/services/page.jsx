@@ -4,7 +4,7 @@ import Footer from "@/components/layout/Footer";
 import SectionWrapper, { SectionHeader } from "@/components/ui/SectionWrapper";
 
 export const metadata = {
-    title: "Services | Nexcode",
+    title: "Services | Soft Line Devs",
     description:
         "Discover professional web design, full-stack development, and SEO services tailored for modern businesses.",
     keywords: [

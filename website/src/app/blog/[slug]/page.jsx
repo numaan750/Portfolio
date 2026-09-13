@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
   const blog = await getBlog(slug);
   if (!blog) {
     return {
-      title: "Blog Not Found | Nexcode",
+      title: "Blog Not Found | Soft Line Devs",
     };
   }
 
@@ -30,8 +30,8 @@ export async function generateMetadata({ params }) {
     ? blog.content.replace(/<[^>]*>/g, "").substring(0, 160).trim()
     : "";
 
-  const finalTitle = blog.metaTitle || `${blog.title} | Nexcode`;
-  const finalDesc = blog.metaDescription || plainTextDescription || "Nexcode blog post detailing custom development and AI integrations.";
+  const finalTitle = blog.metaTitle || `${blog.title} | Soft Line Devs`;
+  const finalDesc = blog.metaDescription || plainTextDescription || "Soft Line Devs blog post detailing custom development and AI integrations.";
   const finalImage = blog.metaImage || blog.imageUrl || "";
 
   return {

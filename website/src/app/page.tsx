@@ -15,12 +15,12 @@ import FAQ from '@/components/home/FAQ'
 import Footer from '@/components/layout/Footer'
 
 export const metadata = {
-  title: "Home | Nexcode",
+  title: "Home | Soft Line Devs",
   description:
     "Launch modern websites, web apps, and SEO-optimized digital experiences with Numaan Ali.",
   keywords: [
     "Numaan Ali",
-    "Nexcode",
+    "Soft Line Devs",
     "Home",
     "Full-Stack Developer",
     "UI/UX Designer",
