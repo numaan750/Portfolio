@@ -3,6 +3,7 @@
 import { FaGithub, FaLinkedinIn, FaEnvelope, FaPhone } from "react-icons/fa";
 import { personalInfo } from "@/lib/data";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -31,9 +32,23 @@ export default function Footer() {
       <div className="max-w-300 mx-auto flex flex-col items-center gap-5 text-center">
         <a
           href="#home"
-          className="font-extrabold text-[1.3rem] no-underline bg-linear-to-br from-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent"
+          className="inline-flex flex-col items-center gap-2 font-extrabold text-[1.3rem] no-underline"
         >
-          Soft Line Devs
+          <Image
+            src="/logo.png"
+            alt=""
+            width={160}
+            height={80}
+            className="h-14 w-28 object-contain"
+          />
+
+          <span>
+            Soft Line{" "}
+            <span className="bg-linear-to-br from-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
+              Devs
+            </span>
+          </span>
+
         </a>
         <div className="flex gap-6 flex-wrap justify-center">
           {FOOTER_LINKS.map((item) => (
