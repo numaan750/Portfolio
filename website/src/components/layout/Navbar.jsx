@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { label: "Home", href: "/", type: "page" },
@@ -59,11 +60,10 @@ export default function Navbar() {
             y: { duration: 0.35, ease: "easeInOut" },
             opacity: { duration: 0.25 },
           }}
-          className={`w-full rounded-2xl transition-all duration-300 ${
-            scrolled
-              ? "bg-[#07070f]/85 backdrop-blur-xl border border-[#6366f1]/15 shadow-lg shadow-black/20"
-              : "bg-[#07070f]/60 backdrop-blur-md border border-white/8"
-          }`}
+          className={`w-full rounded-2xl transition-all duration-300 ${scrolled
+            ? "bg-[#07070f]/85 backdrop-blur-xl border border-[#6366f1]/15 shadow-lg shadow-black/20"
+            : "bg-[#07070f]/60 backdrop-blur-md border border-white/8"
+            }`}
         >
           <div className="flex items-center justify-between h-[70px] px-5">
             <Link
@@ -75,9 +75,27 @@ export default function Navbar() {
                 }
                 setMenuOpen(false);
               }}
-              className="font-extrabold text-xl no-underline tracking-tight gradient-text"
+              aria-label="Soft Line Devs home"
+              className="group shrink-0 no-underline"
             >
-              Soft Line Devs
+              <span className="relative flex h-12 w-12 items-center overflow-hidden transition-[width] duration-500 ease-out group-hover:w-[210px] group-focus-visible:w-[230px] motion-reduce:transition-none">
+                <Image
+                  src="/logo.png"
+                  alt=""
+                  width={160}
+                  height={80}
+                  className="absolute left-0 h-12 w-12 shrink-0 object-contain transition-all duration-500 ease-out group-hover:scale-90 group-focus-visible:scale-90 motion-reduce:transition-none"
+                />
+
+                <span className="absolute left-14 flex items-center whitespace-nowrap text-lg sm:text-xl font-extrabold">
+                  <span className="text-white opacity-0 translate-x-[-10px] transition-all duration-300 delay-100 ease-out group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0">
+                    Soft Line {" "}
+                  </span>
+                  <span className="gradient-text ml-1 opacity-0 translate-x-[-10px] transition-all duration-300 delay-300 ease-out group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0">
+                    Devs
+                  </span>
+                </span>
+              </span>
             </Link>
             <div className="hidden md:flex gap-2 items-center">
               {NAV_LINKS.map((link) => {
@@ -87,11 +105,10 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => handleNavClick()}
-                    className={`px-4 py-1.5 rounded-lg text-sm font-medium no-underline transition-all duration-250 border ${
-                      isActive
-                        ? "text-white bg-linear-to-br from-[#6366f1] to-[#22d3ee] border-transparent shadow-[0_4px_16px_rgba(99,102,241,0.35)]"
-                        : "text-slate-300 bg-white/10 border-transparent hover:text-white hover:border-white/30 hover:bg-white/8"
-                    }`}
+                    className={`px-4 py-1.5 rounded-lg text-sm font-medium no-underline transition-all duration-250 border ${isActive
+                      ? "text-white bg-linear-to-br from-[#6366f1] to-[#22d3ee] border-transparent shadow-[0_4px_16px_rgba(99,102,241,0.35)]"
+                      : "text-slate-300 bg-white/10 border-transparent hover:text-white hover:border-white/30 hover:bg-white/8"
+                      }`}
                   >
                     {link.label}
                   </Link>
@@ -125,9 +142,8 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => handleNavClick()}
-                  className={`block py-3.5 text-base font-semibold no-underline border-b border-white/5 transition-colors duration-200 ${
-                    isActive ? "text-[#6366f1]" : "text-slate-100"
-                  }`}
+                  className={`block py-3.5 text-base font-semibold no-underline border-b border-white/5 transition-colors duration-200 ${isActive ? "text-[#6366f1]" : "text-slate-100"
+                    }`}
                 >
                   {link.label}
                 </Link>
